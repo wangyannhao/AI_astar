@@ -131,10 +131,9 @@ public class Map {
     				x = x + 1;
     				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
-    				if (ifHitSelf(highway,highway.get((highway.size()-1))))
-    				{
-    					return false;//hit self, have to regenerate;
-    				}
+    				if (ifHitSelf(highway,highway.get((highway.size()-1)))) {
+                        return false;
+                    }
     			}else if (dir == 2)
     			{
     				x = x - 1;
@@ -142,8 +141,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-                        System.out.println("hit self");
-    				//	return false;//hit self, have to regenerate;
+    					return false;
     					 
     				}
     			}else if(dir == 3)
@@ -153,9 +151,8 @@ public class Map {
     				maxDistance = maxDistance+1;
     				distanceToBound = distanceToBound+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
-    				
     				{
-
+                        return false;
     				}
     			}else if (dir == 4)
     			{
@@ -178,8 +175,6 @@ public class Map {
     		
     		if (maxDistance <100)
     		{
-                System.out.println("number of cell less than 100");
-
                 return false;
     		}
     	}else if (bound==1)
