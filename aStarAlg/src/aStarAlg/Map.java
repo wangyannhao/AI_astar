@@ -88,27 +88,12 @@ public class Map {
     		int i = 0;
     		while (highway.get(highway.size()-1).x!=0 && highway.get((highway.size()-1)).x!=159&&highway.get((highway.size()-1)).y !=119 && i<20 )
     		{
-    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
     			//int dir=3;
-    			if (dir==1)
-    			{
-    				x = x + 1;
-    				highway.add(new Point(x,y,dir));
-    				maxDistance = maxDistance+1;
-    			}else if (dir == 2)
-    			{
-    				x = x-1;
-    				highway.add(new Point(x,y,dir));
-    				maxDistance = maxDistance+1;
-    			}else if(dir == 3)
-    			{
+
     				y = y +1;
-    				highway.add(new Point(x,y,dir));
+    				highway.add(new Point(x,y,3));
     				maxDistance = maxDistance+1;
-    			}else if (dir == 4)
-    			{
-    				i = i-1;
-    			}
+
     			i = i+1;
     		}
 
@@ -175,32 +160,15 @@ public class Map {
     		int startPosition = random.nextInt(120);
     		Point Position = new Point(159,startPosition,2);
     		highway.add(Position);
-    		int x = 119;
+    		int x = 159;
     		int y = startPosition;
     		int i = 0;
     		while (highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119 && i<20 )
     		{
-    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
-    			if (dir==1)
-    			{
-    				i = i-1;
-    			}else if (dir == 2)
-    			{
-    				x = x-1;
-    				highway.add(new Point(x,y,dir));
-    				maxDistance = maxDistance+1;
-    			}else if(dir == 3)
-    			{
-    				y=y+1;
-    				highway.add(new Point(x,y,dir));
-    				maxDistance = maxDistance+1;
-    			}else if (dir == 4)
-    			{
 
-    				y=y-1;
-    				highway.add(new Point(x,y,dir));
-    				maxDistance = maxDistance+1;
-    			}
+    			x = x-1;
+    			highway.add(new Point(x,y,2));
+    			maxDistance = maxDistance+1;
     			i = i+1;
     		}
     		if (maxDistance<20)
@@ -221,7 +189,7 @@ public class Map {
 
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					return false;//hit self, have to regenerate;
+    					//return false;//hit self, have to regenerate;
     					
     				}
     			}else if (dir == 2)
@@ -232,7 +200,7 @@ public class Map {
 
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					return false;//hit self, have to regenerate;
+    					//return false;//hit self, have to regenerate;
     					 
     				}
     			}else if(dir == 3)
@@ -242,7 +210,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					return false;
+    					//return false;
     					 
     				}
     			}else if (dir == 4)
@@ -252,7 +220,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					return false;
+    					//return false;
     					 
     				}
     			}
@@ -273,27 +241,10 @@ public class Map {
     		int i = 0;
     		while (highway.get(highway.size()-1).x!=0 && highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0&& i<20 )
     		{
-    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
-    			if (dir==1)
-    			{
-    				x = x + 1;
-    				highway.add(new Point(x,y,dir));
-    				maxDistance = maxDistance+1;
-    			}else if (dir == 2)
-    			{
-    				x = x - 1;
-    				highway.add(new Point(x,y,dir));
-    				maxDistance = maxDistance+1;
-    			}else if(dir == 3)
-    			{
-    				i = i-1;
-    			}else if (dir == 4)
-    			{
-
     				y = y - 1;
-    				highway.add(new Point(x,y,dir));
+    				highway.add(new Point(x,y,4));
     				maxDistance = maxDistance+1;
-    			}
+
     			i =i+1;
     		}
     		if (maxDistance<20)
@@ -341,7 +292,7 @@ public class Map {
         				maxDistance = maxDistance+1;
         				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					return false;
+        					//return false;
         					 
         				}
         			}
@@ -361,28 +312,10 @@ public class Map {
     		int i = 0;
     		while ( highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0 && highway.get(highway.size()-1).y !=119 && i<20 )
     		{
-    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
-    			if (dir==1)
-    			{
     				x = x+1;
     				highway.add(new Point(x,y,1));
     				maxDistance = maxDistance+1;
-    			}else if (dir == 2)
-    			{
-    				i=i-1;
-    			}else if(dir == 3)
-    			{
-    				y = y +1;
-    				highway.add(new Point(x,y,3));
-    				maxDistance = maxDistance+1;
-    			}else if (dir == 4)
-    			{
-
-    				y = y -1;
-    				highway.add(new Point(x,y,4));
-    				maxDistance = maxDistance+1;
-    			}
-    			i = i+1;
+    				i= i+1;
     		}
     		if (maxDistance<20)
     		{
