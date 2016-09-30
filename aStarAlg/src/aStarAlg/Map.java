@@ -6,7 +6,16 @@ public class Map {
 	
 	public Map()
 	{
-
+		initiate();
+		hardCellgenerate();
+		int lines = 0;
+		while(lines<4)
+			{
+				if (generateHighway())
+				{
+					lines = lines+1;
+				}
+			}
 				
 		
 	}
@@ -114,8 +123,8 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					System.out.println(123);
-    				//	return false;//hit self, have to regenerate;
+    					//System.out.println(123);
+    					return false;//hit self, have to regenerate;
     					
     				}
     			}else if (dir == 2)
@@ -125,7 +134,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    				//	return false;//hit self, have to regenerate;
+    					return false;//hit self, have to regenerate;
     					 
     				}
     			}else if(dir == 3)
@@ -137,7 +146,7 @@ public class Map {
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				
     				{
-    				//	return false;
+    					return false;
     					 
     				}
     			}else if (dir == 4)
@@ -149,7 +158,7 @@ public class Map {
     				if (!ifHitSelf(highway,highway.get((highway.size()-1))))
     				
     				{
-    				//	return false;
+    					return false;
     					 
     				}
     			}
@@ -214,7 +223,7 @@ public class Map {
 
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					//return false;//hit self, have to regenerate;
+    					return false;//hit self, have to regenerate;
     					
     				}
     			}else if (dir == 2)
@@ -225,7 +234,7 @@ public class Map {
 
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					//return false;//hit self, have to regenerate;
+    					return false;//hit self, have to regenerate;
     					 
     				}
     			}else if(dir == 3)
@@ -235,7 +244,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					//return false;
+    					return false;
     					 
     				}
     			}else if (dir == 4)
@@ -245,14 +254,14 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					//return false;
+    					return false;
     					 
     				}
     			}
     		}
     		if (maxDistance <100)
     		{
-    			//return false;
+    			return false;
     		}
     		
     	}else if (!a&&b){
@@ -304,7 +313,7 @@ public class Map {
         				maxDistance = maxDistance+1;
         				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					//return false;//hit self, have to regenerate;
+        					return false;//hit self, have to regenerate;
         					
         				}
         			}else if (dir1 == 2)
@@ -314,7 +323,7 @@ public class Map {
         				maxDistance = maxDistance+1;
         				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					//return false;//hit self, have to regenerate;
+        					return false;//hit self, have to regenerate;
         					 
         				}
         			}else if(dir1 == 3)
@@ -325,7 +334,7 @@ public class Map {
         				distanceToBound = distanceToBound-1;
         				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					//return false;
+        					return false;
         					 
         				}
         			}else if (dir1 == 4)
@@ -336,7 +345,7 @@ public class Map {
         				distanceToBound = distanceToBound+1;
         				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					//return false;
+        					return false;
         					 
         				}
         			}
@@ -380,7 +389,7 @@ public class Map {
     		}
     		if (maxDistance<20)
     		{
-    			//return false;
+    			return false;
     		}
     		while(highway.get(highway.size()-1).x!=0 && highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0&&highway.get(highway.size()-1).y !=119)
     		{
@@ -393,7 +402,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get(highway.size()-1)))
     				{
-    					//return false;//hit self, have to regenerate;
+    					return false;//hit self, have to regenerate;
     					
     				}
     			}else if (dir1 == 2)
@@ -403,7 +412,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get(highway.size()-1)))
     				{
-    					//return false;//hit self, have to regenerate;
+    					return false;//hit self, have to regenerate;
     					
     				}
     			}else if(dir1 == 3)
@@ -413,7 +422,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get(highway.size()-1)))
     				{
-    					//return false;
+    					return false;
     					 
     				}
     			}else if (dir1 == 4)
@@ -423,14 +432,14 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get(highway.size()-1)))
     				{
-    					//return false;
+    					return false;
     					 
     				}
     			}
     		}
     		if (maxDistance <100)
     		{
-    			//return false;
+    			return false;
     		}
     	}
     	
@@ -506,45 +515,45 @@ public class Map {
     	double a = Math.random();
     	if(dir==1)
     	{
-    		if (a<0.999)
+    		if (a<0.6)
     		{
     			return dir;
-    		}else if(a>0.999&&a<0.99999){
+    		}else if(a>0.6&&a<0.8){
     			return 4;
-    		}else if (a>0.99999)
+    		}else if (a>0.8)
     		{
     			return 3;
     		}
     	}else if (dir ==2)
     	{
-    		if (a<0.999)
+    		if (a<0.6)
     		{
     			return dir;
-    		}else if(a>0.999&&a<0.99999){
+    		}else if(a>0.6&&a<0.8){
     			return 3;
-    		}else if (a>0.99999)
+    		}else if (a>0.8)
     		{
     			return 4;
     		}
     	}else if (dir ==3)
     	{
-    		if (a<0.999)
+    		if (a<0.6)
     		{
     			return dir;
-    		}else if(a>0.999&&a<0.99999){
+    		}else if(a>0.6&&a<0.8){
     			return 1;
-    		}else if (a>0.99999)
+    		}else if (a>0.8)
     		{
     			return 2;
     		}
     	}else if (dir ==4)
     	{
-    		if (a<0.999)
+    		if (a<0.6)
     		{
     			return dir;
-    		}else if(a>0.999&&a<0.99999){
+    		}else if(a>0.6&&a<0.8){
     			return 1;
-    		}else if (a>0.99999)
+    		}else if (a>0.8)
     		{
     			return 2;
     		}
