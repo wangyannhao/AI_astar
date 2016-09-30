@@ -14,9 +14,8 @@ public class Screen extends JPanel{
 	public void paint(Graphics g)
 	{
 		Map hehe = new Map();
-		hehe.initiate();
-		hehe.hardCellgenerate();
-		hehe.generateHighway();
+
+		hehe.Produce_map();
 		Random random = new Random();
 		int ran = random.nextInt(130);
 		for (int i = 0;i<160;i++)
