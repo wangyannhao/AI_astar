@@ -54,8 +54,8 @@ public class Map {
     {	
     	//boolean a = random(0.5f,0.5f);
     	//boolean b = random(0.5f,0.5f);
-    	boolean a = false ;
-    	boolean b = false;
+    	boolean a = true;
+    	boolean b = true;
 		int maxDistance = 0;
 		int distanceToBound = 0; 
     	List<Point> highway = new ArrayList<Point>();
@@ -108,14 +108,14 @@ public class Map {
     		{
     			
     			int dir = chooseDir2(highway.get((highway.size()-1)).Dir);
-    			if (dir==1)
+    			if (dir == 1)
     			{
     				x = x + 1;
     				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					System.out.println(123);
+    					System.out.println("hit self");
     				//	return false;//hit self, have to regenerate;
     					
     				}
@@ -126,6 +126,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
+                        System.out.println("hit self");
     				//	return false;//hit self, have to regenerate;
     					 
     				}
@@ -138,18 +139,20 @@ public class Map {
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				
     				{
+                        System.out.println("hit self");
     				//	return false;
     					 
     				}
     			}else if (dir == 4)
     			{
-    				y= y + 1;
-    				highway.add(new Point(x,y,dir));
+                    y= y - 1;
+                    highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
     				distanceToBound = distanceToBound+1;
     				if (!ifHitSelf(highway,highway.get((highway.size()-1))))
     				
     				{
+                        System.out.println("hit self");
     				//	return false;
     					 
     				}
@@ -161,7 +164,9 @@ public class Map {
     		
     		if (maxDistance <100)
     		{
-    			return false;
+                System.out.println("number of cell less than 100");
+
+                return false;
     		}
     	}else if (a&&!b)
     	{
@@ -169,7 +174,7 @@ public class Map {
     		int startPosition = (int) Math.ceil(Math.random()*120);
     		Point Position = new Point(159,startPosition,2);
     		highway.add(Position);
-    		int x = 119;
+    		int x = 159;
     		int y = startPosition;
     		int i = 0;
     		while (highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119 && i<20 )
@@ -261,7 +266,7 @@ public class Map {
     		int startPosition = (int) Math.ceil(Math.random()*160);
     		highway.add(new Point(startPosition,119,4));
     		int x = startPosition;
-    		int y = 159;
+    		int y = 119;
     		//first 20 cells, random moves without moving back
     		int i = 0;
     		while (highway.get(highway.size()-1).x!=0 && highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0&& i<20 )
@@ -387,7 +392,7 @@ public class Map {
     		{
     			int dir1 = chooseDir2(highway.get(highway.size()-1).Dir);
     			
-    			if (dir1==1)
+    			if (dir1 == 1)
     			{
     				x =x+1;
     				highway.add(new Point(x,y,1));
@@ -434,9 +439,10 @@ public class Map {
     			//return false;
     		}
     	}
-    	
+    	int aa =0;
     	for (int i = 0;i<highway.size();i++)
-    	{	
+    	{
+            aa = aa+1;
     		if (cell[highway.get(i).x][highway.get(i).y].type == '1')
     		{
     			cell[highway.get(i).x][highway.get(i).y].setcelltype('a'); 
@@ -548,7 +554,7 @@ public class Map {
     public boolean random(float a, float b)
     {
     	float x = a/(a+b);
-    	if (Math.random() <x)
+    	if (Math.random() < x)
     	{
     		return true;
     	}else {
@@ -561,8 +567,8 @@ public class Map {
         try {
             writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Map.txt"), "utf-8"));
             writer.write(Row + "," + Column + "\n");
-            for(int i = 0; i < Row; i ++){
-                for(int j = 0; j < Column; j++){
+            for(int i = 0; i < Column; i ++){
+                for(int j = 0; j < Row; j++){
                     if(j == Column - 1){
                         writer.write(cell[i][j].type + "\n");
                     }else{
