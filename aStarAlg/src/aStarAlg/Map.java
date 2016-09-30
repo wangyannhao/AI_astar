@@ -9,6 +9,18 @@ public class Map {
 	public Map()
 	{
 
+		initiate();
+		hardCellgenerate();
+		int lines = 0;
+		while(lines<4)
+			{
+				if (generateHighway())
+				{
+					lines = lines+1;
+				}
+			}
+		generateBlockedCell()	;	
+		
 	}
 
 	public static Cell[][] cell ;
@@ -24,6 +36,10 @@ public class Map {
         int y_min = 15;
         int x_max = 105;
         int y_max = 145;
+        Random random1 = new Random();
+        Random random2 = new Random();
+        int deltax = random1.nextInt(130);
+        int deltay = random1.nextInt(90);
         /* generate 8 random coordinate */
         for(int i = 0; i < 8; i++ ){
             x[i] = x_min + (int) (Math.random() * (x_max - x_min) + 1);
@@ -52,20 +68,22 @@ public class Map {
     
     public boolean generateHighway()
     {	
-    	//boolean a = random(0.5f,0.5f);
-    	//boolean b = random(0.5f,0.5f);
-    	boolean a = true;
-    	boolean b = true;
+
+    	boolean a = random(0.5f,0.5f);
+    	boolean b = random(0.5f,0.5f);
+    	Random random1 = new Random();
+    	int bound = random1.nextInt(4);
+
 		int maxDistance = 0;
 		int distanceToBound = 0; 
     	List<Point> highway = new ArrayList<Point>();
 
     	//*********************************************** UP BOUNDARY ********************************************
-    	if (a&&b)
+    	if (bound==0)
     	{
     		//up boundary
-        	
-    		int startPosition = (int) Math.ceil(Math.random()*160);
+        	Random random = new Random();
+    		int startPosition = random.nextInt(160);
     		Point Position = new Point(startPosition,0,3);
     		highway.add(Position);
     		int x = startPosition;
@@ -74,7 +92,7 @@ public class Map {
     		int i = 0;
     		while (highway.get(highway.size()-1).x!=0 && highway.get((highway.size()-1)).x!=159&&highway.get((highway.size()-1)).y !=119 && i<20 )
     		{
-    			int dir = chooseDir();
+    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
     			//int dir=3;
     			if (dir==1)
     			{
@@ -115,9 +133,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					System.out.println("hit self");
-    				//	return false;//hit self, have to regenerate;
-    					
+    					return false;//hit self, have to regenerate;
     				}
     			}else if (dir == 2)
     			{
@@ -139,9 +155,7 @@ public class Map {
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				
     				{
-                        System.out.println("hit self");
-    				//	return false;
-    					 
+
     				}
     			}else if (dir == 4)
     			{
@@ -152,8 +166,8 @@ public class Map {
     				if (!ifHitSelf(highway,highway.get((highway.size()-1))))
     				
     				{
-                        System.out.println("hit self");
-    				//	return false;
+    				    return false;
+
     					 
     				}
     			}
@@ -168,10 +182,11 @@ public class Map {
 
                 return false;
     		}
-    	}else if (a&&!b)
+    	}else if (bound==1)
     	{
     		//*********************************************** RIGHT BOUNDARY ********************************************
-    		int startPosition = (int) Math.ceil(Math.random()*120);
+        	Random random = new Random();
+    		int startPosition = random.nextInt(120);
     		Point Position = new Point(159,startPosition,2);
     		highway.add(Position);
     		int x = 159;
@@ -179,7 +194,7 @@ public class Map {
     		int i = 0;
     		while (highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119 && i<20 )
     		{
-    			int dir = chooseDir();
+    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
     			if (dir==1)
     			{
     				i = i-1;
@@ -220,7 +235,7 @@ public class Map {
 
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					//return false;//hit self, have to regenerate;
+    					return false;//hit self, have to regenerate;
     					
     				}
     			}else if (dir == 2)
@@ -231,7 +246,7 @@ public class Map {
 
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					//return false;//hit self, have to regenerate;
+    					return false;//hit self, have to regenerate;
     					 
     				}
     			}else if(dir == 3)
@@ -241,7 +256,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					//return false;
+    					return false;
     					 
     				}
     			}else if (dir == 4)
@@ -251,19 +266,20 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
-    					//return false;
+    					return false;
     					 
     				}
     			}
     		}
     		if (maxDistance <100)
     		{
-    			//return false;
+    			return false;
     		}
     		
-    	}else if (!a&&b){
+    	}else if (bound==2){
     		//*********************************************** DOWN BOUNDARY ********************************************
-    		int startPosition = (int) Math.ceil(Math.random()*160);
+        	Random random = new Random();
+    		int startPosition = random.nextInt(160);
     		highway.add(new Point(startPosition,119,4));
     		int x = startPosition;
     		int y = 119;
@@ -271,7 +287,7 @@ public class Map {
     		int i = 0;
     		while (highway.get(highway.size()-1).x!=0 && highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0&& i<20 )
     		{
-    			int dir = chooseDir();
+    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
     			if (dir==1)
     			{
     				x = x + 1;
@@ -310,7 +326,7 @@ public class Map {
         				maxDistance = maxDistance+1;
         				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					//return false;//hit self, have to regenerate;
+        					return false;//hit self, have to regenerate;
         					
         				}
         			}else if (dir1 == 2)
@@ -320,7 +336,7 @@ public class Map {
         				maxDistance = maxDistance+1;
         				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					//return false;//hit self, have to regenerate;
+        					return false;//hit self, have to regenerate;
         					 
         				}
         			}else if(dir1 == 3)
@@ -331,7 +347,7 @@ public class Map {
         				distanceToBound = distanceToBound-1;
         				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					//return false;
+        					return false;
         					 
         				}
         			}else if (dir1 == 4)
@@ -342,7 +358,7 @@ public class Map {
         				distanceToBound = distanceToBound+1;
         				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					//return false;
+        					return false;
         					 
         				}
         			}
@@ -352,16 +368,17 @@ public class Map {
         			return false;
         		}
     		
-    	}else if (!a&&!b){
+    	}else if (bound==3){
     		//*********************************************** LEFT BOUNDARY ********************************************
-    		int startPosition = (int) Math.ceil(Math.random()*120);
+        	Random random = new Random();
+    		int startPosition = random.nextInt(120);
     		highway.add( new Point(0,startPosition,1));
     		int x = 0;
     		int y = startPosition;
     		int i = 0;
     		while ( highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0 && highway.get(highway.size()-1).y !=119 && i<20 )
     		{
-    			int dir = chooseDir();
+    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
     			if (dir==1)
     			{
     				x = x+1;
@@ -386,7 +403,7 @@ public class Map {
     		}
     		if (maxDistance<20)
     		{
-    			//return false;
+    			return false;
     		}
     		while(highway.get(highway.size()-1).x!=0 && highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0&&highway.get(highway.size()-1).y !=119)
     		{
@@ -399,7 +416,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get(highway.size()-1)))
     				{
-    					//return false;//hit self, have to regenerate;
+    					return false;//hit self, have to regenerate;
     					
     				}
     			}else if (dir1 == 2)
@@ -409,7 +426,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get(highway.size()-1)))
     				{
-    					//return false;//hit self, have to regenerate;
+    					return false;//hit self, have to regenerate;
     					
     				}
     			}else if(dir1 == 3)
@@ -419,7 +436,7 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get(highway.size()-1)))
     				{
-    					//return false;
+    					return false;
     					 
     				}
     			}else if (dir1 == 4)
@@ -429,14 +446,14 @@ public class Map {
     				maxDistance = maxDistance+1;
     				if (ifHitSelf(highway,highway.get(highway.size()-1)))
     				{
-    					//return false;
+    					return false;
     					 
     				}
     			}
     		}
     		if (maxDistance <100)
     		{
-    			//return false;
+    			return false;
     		}
     	}
     	int aa =0;
@@ -453,69 +470,109 @@ public class Map {
     			
     		}
     	}
-    	Point a1 = highway.get(highway.size()-1);
+    	
     	return true;
     }
     
-    public int chooseDir()
-    {
-    	boolean a = random(0.5f,0.5f);
-    	boolean b = random(0.5f,0.5f);
-    	if (a&&b){
-     		return 1; //1 is x + 1 move right
-     	}else if (!a&&b){ 
-      		return 2; // 2 is x-1 move left
-      	}else if (a&&!b){
-      		return 3; //3 is y+1 move down
-      	}else {
-      		return 4; // 4 is y-1 move up
-      	}
-    }
-    
-    public int chooseDir2(int dir)
-    {
-    	double a = Math.random();
+    public int chooseDir(int dir)
+    {	
+    	
+
+    	Random random = new Random();
+    	int ran = random.nextInt(100);
     	if(dir==1)
     	{
-    		if (a<0.6)
+    		if (ran<33)
     		{
     			return dir;
-    		}else if(a>0.6&&a<0.8){
+    		}else if(ran>33&&ran<67){
     			return 4;
-    		}else if (a>0.8)
+    		}else
     		{
     			return 3;
     		}
     	}else if (dir ==2)
     	{
-    		if (a<0.6)
+    		if (ran<33)
     		{
     			return dir;
-    		}else if(a>0.6&&a<0.8){
+    		}else if(ran>33&&ran<67){
     			return 3;
-    		}else if (a>0.8)
+    		}else 
     		{
     			return 4;
     		}
     	}else if (dir ==3)
     	{
-    		if (a<0.6)
+    		if (ran<33)
     		{
     			return dir;
-    		}else if(a>0.6&&a<0.8){
+    		}else if(ran>33&&ran<67){
     			return 1;
-    		}else if (a>0.8)
+    		}else 
+    		{
+    			return 2;
+    		}
+    	}else
+    	{
+    		if (ran<33)
+    		{
+    			return dir;
+    		}else if(ran>33&&ran<67){
+    			return 1;
+    		}else 
+    		{
+    			return 2;
+    		}
+    	}
+    }
+    
+    public int chooseDir2(int dir)
+    {
+    	//double a = Math.random();
+    	Random random = new Random();
+    	int ran = random.nextInt(100);
+    	if(dir==1)
+    	{
+    		if (ran<60)
+    		{
+    			return dir;
+    		}else if(ran>60&&ran<80){
+    			return 4;
+    		}else if (ran>80)
+    		{
+    			return 3;
+    		}
+    	}else if (dir ==2)
+    	{
+    		if (ran<60)
+    		{
+    			return dir;
+    		}else if(ran>60&&ran<80){
+    			return 3;
+    		}else if (ran>80)
+    		{
+    			return 4;
+    		}
+    	}else if (dir ==3)
+    	{
+    		if (ran<60)
+    		{
+    			return dir;
+    		}else if(ran>60&&ran<80){
+    			return 1;
+    		}else if (ran>80)
     		{
     			return 2;
     		}
     	}else if (dir ==4)
     	{
-    		if (a<0.6)
+    		if (ran<60)
     		{
     			return dir;
-    		}else if(a>0.6&&a<0.8){
+    		}else if(ran>60&&ran<80){
     			return 1;
-    		}else if (a>0.8)
+    		}else if (ran>80)
     		{
     			return 2;
     		}
@@ -527,7 +584,7 @@ public class Map {
     {
     	for (int i = 0;i<h.size();i++)
     	{
-    		if (h.get(i).x == p.x && h.get(i).y == p.y)
+    		if (h.get(i).x == p.x && h.get(i).y == p.y )
     		{
     			return true;
     		}
@@ -549,7 +606,24 @@ public class Map {
     	}
 
     }
-    
+    public void generateBlockedCell()
+    {
+    	int a = 0;
+    	for (int i =0;i<160;i++)
+    	{
+    		for (int j = 0; j<120;j++)
+    		{
+    			Random ran = new Random();
+    			int x = ran.nextInt(10);
+    			if (x<=1 && cell[i][j].type!='a'&& cell[i][j].type!='b')
+    			{
+    				cell[i][j].type = '0';
+    				a = a+1;
+    			}
+    		}
+    	}
+    	System.out.println(a);
+    }
 
     public boolean random(float a, float b)
     {

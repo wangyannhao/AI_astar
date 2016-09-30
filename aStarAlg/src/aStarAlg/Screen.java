@@ -2,6 +2,9 @@ package aStarAlg;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.Graphics;
+import java.util.Random;
+import java.awt.image.ColorModel;
+import java.awt.image.IndexColorModel;
 
 public class Screen extends JPanel{
 	public Screen ()
@@ -14,8 +17,8 @@ public class Screen extends JPanel{
 		hehe.initiate();
 		hehe.hardCellgenerate();
 		hehe.generateHighway();
-		//hehe.output_map();
-
+		Random random = new Random();
+		int ran = random.nextInt(130);
 		for (int i = 0;i<160;i++)
     	{
     		for (int j = 0;j<120;j++)
@@ -23,7 +26,7 @@ public class Screen extends JPanel{
     			if (Map.cell[i][j].type == '1')
     			{
     				g.setColor(Color.lightGray);
-    				g.fillRect(5*i, 5*j, 5, 5);
+    				g.drawRect(5*i, 5*j, 5, 5);
     			}
     			else if (Map.cell[i][j].type == '2')
     			{
@@ -32,15 +35,21 @@ public class Screen extends JPanel{
     			}
     			else if (Map.cell[i][j].type == 'a')
     			{
-    				g.setColor(Color.green);
+    				g.setColor(new Color(53,161,159));
     				g.fillRect(5*i, 5*j, 5,5);
 
     			}
     			else if (Map.cell[i][j].type == 'b')
     			{
-    				g.setColor(Color.blue);
+    				g.setColor(new Color(53,80,159));
     				g.fillRect(5*i, 5*j, 5,5);
-    				System.out.println("yes");
+    				
+    			}
+    			else if (Map.cell[i][j].type == '0')
+    			{
+    				g.setColor(Color.black);
+    				g.fillRect(5*i, 5*j, 5,5);
+    				
     			}
     			
     		}
