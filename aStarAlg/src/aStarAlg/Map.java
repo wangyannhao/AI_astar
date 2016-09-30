@@ -1,27 +1,34 @@
 package aStarAlg;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.*;
+import java.io.*;
 
 public class Map {
 	public List<Point> highwaylist = new ArrayList<Point>();
+
 	public Map()
 	{
 		initiate();
 		hardCellgenerate();
-		int lines = 0;
-		while(lines<4)
+		int lines = 1;
+		while(lines < 5)
 			{
-				if (generateHighway())
+				if (generateHighway(lines))
 				{
+
 					lines = lines+1;
 				}
 			}
-		generateBlockedCell()	;	
+		generateBlockedCell();
 		
 	}
 	
 	public static Cell[][] cell ;
-
+	public final int Row = 120;
+	public final int Column = 160;
     
     public void hardCellgenerate()
     {
@@ -62,15 +69,13 @@ public class Map {
         }
     }
     
-    public boolean generateHighway()
+    public boolean generateHighway(int index)
     {	
     	boolean a = random(0.5f,0.5f);
     	boolean b = random(0.5f,0.5f);
     	Random random1 = new Random();
     	int bound = random1.nextInt(4);
-    	//boolean a = true ;
-    	//boolean b = true;
-    	
+
 		int maxDistance = 0;
 		int distanceToBound = 0; 
     	List<Point> highway = new ArrayList<Point>();
@@ -496,12 +501,15 @@ public class Map {
     	{	
     		if (cell[highway.get(i).x][highway.get(i).y].type == '1')
     		{
-    			cell[highway.get(i).x][highway.get(i).y].setcelltype('a'); 
-    			highwaylist.add(new Point(highway.get(i).x,highway.get(i).y,highway.get(i).Dir));
+    			cell[highway.get(i).x][highway.get(i).y].setcelltype('a');
+				cell[highway.get(i).x][highway.get(i).y].index = index;
+                highwaylist.add(new Point(highway.get(i).x,highway.get(i).y,highway.get(i).Dir));
+
     			
     		}else if (cell[highway.get(i).x][highway.get(i).y].type == '2')
     		{
-    			cell[highway.get(i).x][highway.get(i).y].setcelltype('b'); 
+    			cell[highway.get(i).x][highway.get(i).y].setcelltype('b');
+				cell[highway.get(i).x][highway.get(i).y].index = index;
     			highwaylist.add(new Point(highway.get(i).x,highway.get(i).y,highway.get(i).Dir));
     		}
     	}
@@ -509,58 +517,7 @@ public class Map {
     	return true;
     }
     
-    public int chooseDir(int dir)
-    {	
-    	
 
-    	Random random = new Random();
-    	int ran = random.nextInt(100);
-    	if(dir==1)
-    	{
-    		if (ran<33)
-    		{
-    			return dir;
-    		}else if(ran>33&&ran<67){
-    			return 4;
-    		}else
-    		{
-    			return 3;
-    		}
-    	}else if (dir ==2)
-    	{
-    		if (ran<33)
-    		{
-    			return dir;
-    		}else if(ran>33&&ran<67){
-    			return 3;
-    		}else 
-    		{
-    			return 4;
-    		}
-    	}else if (dir ==3)
-    	{
-    		if (ran<33)
-    		{
-    			return dir;
-    		}else if(ran>33&&ran<67){
-    			return 1;
-    		}else 
-    		{
-    			return 2;
-    		}
-    	}else
-    	{
-    		if (ran<33)
-    		{
-    			return dir;
-    		}else if(ran>33&&ran<67){
-    			return 1;
-    		}else 
-    		{
-    			return 2;
-    		}
-    	}
-    }
     
     public int chooseDir2(int dir)
     {
@@ -680,5 +637,55 @@ public class Map {
     		return false;
     	}
     }
+
+	public void Produce_map(){
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter("Output_map.txt"));
+			out.write(Row + "," + Column + "\n");
+            for(int i = 0; i < Row; i ++){
+				for(int j = 0; j < Column; j++){
+					if(cell[j][i].index == 1)
+					{
+						if(j == (Column - 1))
+						{
+						    out.write(cell[j][i].type + "" + cell[j][i].index + "\n");
+						} else {
+						out.write(cell[j][i].type + "" + cell[j][i].index + ",");
+						}
+					} else if(cell[j][i].index == 2){
+                        if(j == (Column - 1))
+                        {
+                            out.write(cell[j][i].type + "" + cell[j][i].index + "\n");
+                        } else {
+                            out.write(cell[j][i].type + "" + cell[j][i].index + ",");
+                        }
+					}else if(cell[j][i].index == 3){
+                        if(j == (Column - 1))
+                        {
+                            out.write(cell[j][i].type + "" + cell[j][i].index + "\n");
+                        } else {
+                            out.write(cell[j][i].type + "" + cell[j][i].index + ",");
+                        }
+                    }else if(cell[j][i].index == 4){
+                        if(j == (Column - 1))
+                        {
+                            out.write(cell[j][i].type + "" + cell[j][i].index + "\n");
+                        } else {
+                            out.write(cell[j][i].type + "" + cell[j][i].index + ",");
+                        }
+                    }else {
+                        if(j == (Column - 1))
+                        {
+                            out.write(cell[j][i].type + "\n");
+                        } else {
+                            out.write(cell[j][i].type + ",");
+                        }
+                    }
+				}
+			}
+
+			out.close();
+		} catch (IOException e) {}
+	}
 
 }
