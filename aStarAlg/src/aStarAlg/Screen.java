@@ -34,7 +34,7 @@ public class Screen extends JPanel{
     			}
     			else if (Map.cell[i][j].type == 'a')
     			{
-    				g.setColor(new Color(53,161,159));
+    				g.setColor(new Color(72,170,237));
     				g.fillRect(5*i, 5*j, 5,5);
 
     			}
