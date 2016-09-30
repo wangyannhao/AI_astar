@@ -113,7 +113,6 @@ public class Map {
     				x = x + 1;
     				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
-    				
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
     					System.out.println(123);
@@ -165,10 +164,10 @@ public class Map {
     	{
     		//*********************************************** RIGHT BOUNDARY ********************************************
     		int startPosition = (int) Math.ceil(Math.random()*120);
-    		Point Position = new Point(startPosition,159,2);
+    		Point Position = new Point(119,startPosition,2);
     		highway.add(Position);
-    		int x = startPosition;
-    		int y = 159;
+    		int x = 119;
+    		int y = startPosition;
     		int i = 0;
     		while (highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119 && i<20 )
     		{
@@ -179,23 +178,20 @@ public class Map {
     			}else if (dir == 2)
     			{
     			
-    				Position.x = Position.x - 1;
-    				Position.Dir = dir;
-    				highway.add(Position);
+    				x = x-1;
+    				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
     				distanceToBound = distanceToBound+1;
     			}else if(dir == 3)
     			{
-    				Position.y = Position.y+1;
-    				highway.add(Position);
-    				Position.Dir = dir;
+    				y=y+1;
+    				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
     			}else if (dir == 4)
     			{
 
-    				Position.y = Position.y-1;
-    				highway.add(Position);
-    				Position.Dir = dir;
+    				y=y-1;
+    				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
     			}
     			i = i+1;
@@ -207,57 +203,45 @@ public class Map {
     		// 60% 20% way of choosing direction
     		while(Position.x!=0 && Position.x!=159 && Position.y!=0&&Position.y !=119)
     		{
-    			int dir = chooseDir2(Position.Dir);
+    			int dir = chooseDir2(highway.get((highway.size()-1)).Dir);
     			if (dir==1)
     			{
-    				Position.x = Position.x + 1;
-    				if (!ifHitSelf(highway,Position))
-    				{
-    					Position.Dir = dir;
-    					highway.add(Position);
-    					maxDistance = maxDistance+1;
-    				}else
+    				x = x+1;
+    				highway.add(new Point(x,y,dir));
+    				maxDistance = maxDistance+1;
+    				distanceToBound = distanceToBound+1;
+    				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
     					return false;//hit self, have to regenerate;
     					
     				}
     			}else if (dir == 2)
     			{
-    				Position.x = Position.x-1;
-    				if (!ifHitSelf(highway,Position))
-    				{
-    					highway.add(Position);
-    					Position.Dir = dir;
-    					maxDistance = maxDistance+1;
-    				}else
+    				x = x-1;
+    				highway.add(new Point(x,y,dir));
+    				maxDistance = maxDistance+1;
+    				distanceToBound = distanceToBound+1;
+    				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
     					return false;//hit self, have to regenerate;
     					 
     				}
     			}else if(dir == 3)
     			{
-    				Position.y = Position.y +1;
-    				if (!ifHitSelf(highway,Position))
-    				{
-    					highway.add(Position);
-    					Position.Dir = dir;
-    					maxDistance = maxDistance+1;
-    					distanceToBound = distanceToBound+1;
-    				}else
+    				y=y+1;
+    				highway.add(new Point(x,y,dir));
+    				maxDistance = maxDistance+1;
+    				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
     					return false;
     					 
     				}
     			}else if (dir == 4)
     			{
-    				Position.y = Position.y -1;
-    				if (!ifHitSelf(highway,Position))
-    				{
-    					highway.add(Position);
-    					Position.Dir = dir;
-    					maxDistance = maxDistance+1;
-    					distanceToBound = distanceToBound-1;
-    				}else
+    				y=y-1;
+    				highway.add(new Point(x,y,dir));
+    				maxDistance = maxDistance+1;
+    				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
     					return false;
     					 
@@ -269,27 +253,27 @@ public class Map {
     			return false;
     		}
     		
-    	}/*else if (!a&&b){
+    	}else if (!a&&b){
     		//*********************************************** DOWN BOUNDARY ********************************************
     		int startPosition = (int) Math.ceil(Math.random()*160);
-    		Point Position = new Point(startPosition,159);
+    		Point Position = new Point(startPosition,159,4);
     		highway.add(Position);
+    		int x = startPosition;
+    		int y = 159;
     		//first 20 cells, random moves without moving back
     		int i = 0;
-    		while (Position.x!=0 && Position.x!=159 && Position.y!=0&&Position.y !=119 && i<20 )
+    		while (highway.get(highway.size()-1).x!=0 && highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0&& i<20 )
     		{
     			int dir = chooseDir();
     			if (dir==1)
     			{
-    				Position.x = Position.x + 1;
-    				Position.Dir = dir;
-    				highway.add(Position);
+    				x = x + 1;
+    				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
     			}else if (dir == 2)
     			{
-    				Position.x = Position.x-1;
-    				highway.add(Position);
-    				Position.Dir = dir;
+    				x = x - 1;
+    				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
     			}else if(dir == 3)
     			{
@@ -297,9 +281,8 @@ public class Map {
     			}else if (dir == 4)
     			{
 
-    				Position.y = Position.y -1;
-    				highway.add(Position);
-    				Position.Dir = dir;
+    				y = y - 1;
+    				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
     				distanceToBound = distanceToBound+1;
     			}
@@ -374,7 +357,7 @@ public class Map {
         			return false;
         		}
     		
-    	}else if (!a&&!b){
+    	}/*else if (!a&&!b){
     		//*********************************************** LEFT BOUNDARY ********************************************
     		int startPosition = (int) Math.ceil(Math.random()*120);
     		Point Position = new Point(startPosition,159);
