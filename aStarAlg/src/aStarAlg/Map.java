@@ -51,10 +51,10 @@ public class Map {
     
     public boolean generateHighway()
     {	
-    	//boolean a = random(0.5f,0.5f);
-    	//boolean b = random(0.5f,0.5f);
-    	boolean a = false ;
-    	boolean b = false;
+    	boolean a = random(0.5f,0.5f);
+    	boolean b = random(0.5f,0.5f);
+    	//boolean a = true ;
+    	//boolean b = true;
 		int maxDistance = 0;
 		int distanceToBound = 0; 
     	List<Point> highway = new ArrayList<Point>();
@@ -73,7 +73,7 @@ public class Map {
     		int i = 0;
     		while (highway.get(highway.size()-1).x!=0 && highway.get((highway.size()-1)).x!=159&&highway.get((highway.size()-1)).y !=119 && i<20 )
     		{
-    			int dir = chooseDir();
+    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
     			//int dir=3;
     			if (dir==1)
     			{
@@ -173,7 +173,7 @@ public class Map {
     		int i = 0;
     		while (highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119 && i<20 )
     		{
-    			int dir = chooseDir();
+    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
     			if (dir==1)
     			{
     				i = i-1;
@@ -260,12 +260,12 @@ public class Map {
     		int startPosition = (int) Math.ceil(Math.random()*160);
     		highway.add(new Point(startPosition,119,4));
     		int x = startPosition;
-    		int y = 159;
+    		int y = 119;
     		//first 20 cells, random moves without moving back
     		int i = 0;
     		while (highway.get(highway.size()-1).x!=0 && highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0&& i<20 )
     		{
-    			int dir = chooseDir();
+    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
     			if (dir==1)
     			{
     				x = x + 1;
@@ -355,7 +355,7 @@ public class Map {
     		int i = 0;
     		while ( highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0 && highway.get(highway.size()-1).y !=119 && i<20 )
     		{
-    			int dir = chooseDir();
+    			int dir = chooseDir(highway.get(highway.size()-1).Dir);
     			if (dir==1)
     			{
     				x = x+1;
@@ -450,19 +450,55 @@ public class Map {
     	return true;
     }
     
-    public int chooseDir()
-    {
-    	boolean a = random(0.5f,0.5f);
-    	boolean b = random(0.5f,0.5f);
-    	if (a&&b){
-     		return 1; //1 is x + 1 move right
-     	}else if (!a&&b){ 
-      		return 2; // 2 is x-1 move left
-      	}else if (a&&!b){
-      		return 3; //3 is y+1 move down
-      	}else {
-      		return 4; // 4 is y-1 move up
-      	}
+    public int chooseDir(int dir)
+    {	
+    	
+    	double a = Math.random();
+    	if(dir==1)
+    	{
+    		if (a<0.3333)
+    		{
+    			return dir;
+    		}else if(a>0.3333&&a<0.6667){
+    			return 4;
+    		}else
+    		{
+    			return 3;
+    		}
+    	}else if (dir ==2)
+    	{
+    		if (a<0.3333)
+    		{
+    			return dir;
+    		}else if(a>0.3333&&a<0.6667){
+    			return 3;
+    		}else 
+    		{
+    			return 4;
+    		}
+    	}else if (dir ==3)
+    	{
+    		if (a<0.3333)
+    		{
+    			return dir;
+    		}else if(a>0.3333&&a<0.6667){
+    			return 1;
+    		}else 
+    		{
+    			return 2;
+    		}
+    	}else
+    	{
+    		if (a<0.3333)
+    		{
+    			return dir;
+    		}else if(a>0.3333&&a<0.6667){
+    			return 1;
+    		}else 
+    		{
+    			return 2;
+    		}
+    	}
     }
     
     public int chooseDir2(int dir)
@@ -470,45 +506,45 @@ public class Map {
     	double a = Math.random();
     	if(dir==1)
     	{
-    		if (a<0.6)
+    		if (a<0.999)
     		{
     			return dir;
-    		}else if(a>0.6&&a<0.8){
+    		}else if(a>0.999&&a<0.99999){
     			return 4;
-    		}else if (a>0.8)
+    		}else if (a>0.99999)
     		{
     			return 3;
     		}
     	}else if (dir ==2)
     	{
-    		if (a<0.6)
+    		if (a<0.999)
     		{
     			return dir;
-    		}else if(a>0.6&&a<0.8){
+    		}else if(a>0.999&&a<0.99999){
     			return 3;
-    		}else if (a>0.8)
+    		}else if (a>0.99999)
     		{
     			return 4;
     		}
     	}else if (dir ==3)
     	{
-    		if (a<0.6)
+    		if (a<0.999)
     		{
     			return dir;
-    		}else if(a>0.6&&a<0.8){
+    		}else if(a>0.999&&a<0.99999){
     			return 1;
-    		}else if (a>0.8)
+    		}else if (a>0.99999)
     		{
     			return 2;
     		}
     	}else if (dir ==4)
     	{
-    		if (a<0.6)
+    		if (a<0.999)
     		{
     			return dir;
-    		}else if(a>0.6&&a<0.8){
+    		}else if(a>0.999&&a<0.99999){
     			return 1;
-    		}else if (a>0.8)
+    		}else if (a>0.99999)
     		{
     			return 2;
     		}
