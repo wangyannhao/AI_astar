@@ -90,7 +90,6 @@ public class Map {
     				y = y +1;
     				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
-    				distanceToBound = distanceToBound+1;
     			}else if (dir == 4)
     			{
     				i = i-1;
@@ -154,6 +153,9 @@ public class Map {
     					 
     				}
     			}
+    			
+    			
+    			
     		}
     		
     		if (maxDistance <100)
@@ -177,11 +179,9 @@ public class Map {
     				i = i-1;
     			}else if (dir == 2)
     			{
-    			
     				x = x-1;
     				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
-    				distanceToBound = distanceToBound+1;
     			}else if(dir == 3)
     			{
     				y=y+1;
@@ -200,16 +200,18 @@ public class Map {
     		{
     			return false;
     		}
+    		int count = 0;
     		// 60% 20% way of choosing direction
-    		while(Position.x!=0 && Position.x!=159 && Position.y!=0&&Position.y !=119)
+    		while(highway.get(highway.size()-1).x!=0 && highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0&&highway.get(highway.size()-1).y !=119)
     		{
     			int dir = chooseDir2(highway.get((highway.size()-1)).Dir);
+    			count=count+1;
     			if (dir==1)
     			{
     				x = x+1;
     				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
-    				distanceToBound = distanceToBound+1;
+
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
     					//return false;//hit self, have to regenerate;
@@ -220,7 +222,7 @@ public class Map {
     				x = x-1;
     				highway.add(new Point(x,y,dir));
     				maxDistance = maxDistance+1;
-    				distanceToBound = distanceToBound+1;
+
     				if (ifHitSelf(highway,highway.get((highway.size()-1))))
     				{
     					//return false;//hit self, have to regenerate;
@@ -256,8 +258,7 @@ public class Map {
     	}else if (!a&&b){
     		//*********************************************** DOWN BOUNDARY ********************************************
     		int startPosition = (int) Math.ceil(Math.random()*160);
-    		Point Position = new Point(startPosition,159,4);
-    		highway.add(Position);
+    		highway.add(new Point(startPosition,119,4));
     		int x = startPosition;
     		int y = 159;
     		//first 20 cells, random moves without moving back
@@ -301,9 +302,9 @@ public class Map {
         				x = x + 1;
         				highway.add(new Point(x,y,dir1));
         				maxDistance = maxDistance+1;
-        				if (ifHitSelf(highway,Position))
+        				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					return false;//hit self, have to regenerate;
+        					//return false;//hit self, have to regenerate;
         					
         				}
         			}else if (dir1 == 2)
@@ -311,9 +312,9 @@ public class Map {
         				x = x - 1;
         				highway.add(new Point(x,y,dir1));
         				maxDistance = maxDistance+1;
-        				if (ifHitSelf(highway,Position))
+        				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					return false;//hit self, have to regenerate;
+        					//return false;//hit self, have to regenerate;
         					 
         				}
         			}else if(dir1 == 3)
@@ -322,9 +323,9 @@ public class Map {
         				highway.add(new Point(x,y,dir1));
         				maxDistance = maxDistance+1;
         				distanceToBound = distanceToBound-1;
-        				if (ifHitSelf(highway,Position))
+        				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					return false;
+        					//return false;
         					 
         				}
         			}else if (dir1 == 4)
@@ -333,9 +334,9 @@ public class Map {
         				highway.add(new Point(x,y,dir1));
         				maxDistance = maxDistance+1;
         				distanceToBound = distanceToBound+1;
-        				if (ifHitSelf(highway,Position))
+        				if (ifHitSelf(highway,highway.get(highway.size()-1)))
         				{
-        					return false;
+        					//return false;
         					 
         				}
         			}
@@ -379,7 +380,7 @@ public class Map {
     		}
     		if (maxDistance<20)
     		{
-    			return false;
+    			//return false;
     		}
     		while(highway.get(highway.size()-1).x!=0 && highway.get(highway.size()-1).x!=159 && highway.get(highway.size()-1).y!=0&&highway.get(highway.size()-1).y !=119)
     		{
@@ -429,7 +430,7 @@ public class Map {
     		}
     		if (maxDistance <100)
     		{
-    			return false;
+    			//return false;
     		}
     	}
     	
@@ -445,6 +446,7 @@ public class Map {
     			
     		}
     	}
+    	Point a1 = highway.get(highway.size()-1);
     	return true;
     }
     
