@@ -1,4 +1,6 @@
 package aStarAlg;
+import javax.swing.*;
+import java.io.*;
 import java.util.Random;
 import java.util.*;
 
@@ -7,13 +9,12 @@ public class Map {
 	public Map()
 	{
 
-				
-		
 	}
-	
-	public static Cell[][] cell ;
 
-    
+	public static Cell[][] cell ;
+    public final int Row = 120;
+    public final int Column = 160;
+
     public void hardCellgenerate()
     {
         int[] x = new int[8];
@@ -585,5 +586,27 @@ public class Map {
     		return false;
     	}
     }
+
+    public void output_map(){
+        Writer writer = null;
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Map.txt"), "utf-8"));
+            writer.write(Row + "," + Column + "\n");
+            for(int i = 0; i < Row; i ++){
+                for(int j = 0; j < Column; j++){
+                    if(j == Column - 1){
+                        writer.write(cell[i][j].type + "\n");
+                    }else{
+                        writer.write(cell[i][j].type + ",");
+                    }
+                }
+            }
+        } catch (IOException EX){
+            //report
+        } finally{
+            try {
+                writer.close();} catch (Exception ex){}
+        }
+	}
 
 }

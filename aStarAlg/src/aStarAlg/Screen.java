@@ -14,7 +14,7 @@ public class Screen extends JPanel{
 		hehe.initiate();
 		hehe.hardCellgenerate();
 		hehe.generateHighway();
-		
+
 		for (int i = 0;i<160;i++)
     	{
     		for (int j = 0;j<120;j++)
