@@ -8,7 +8,8 @@ import java.io.*;
 
 public class Map {
 	public List<Point> highwaylist = new ArrayList<Point>();
-
+	public Point Goal = new Point(0,0,1);
+	public Point Start = new Point(0,0,1);
 	public Map()
 	{
 
@@ -24,9 +25,11 @@ public class Map {
 				}
 			}
 		generateBlockedCell();
+		generateStartandGoal();
+		
 		
 	}
-
+	
 	public static Cell[][] cell ;
 
 	public final int Row = 120;
@@ -636,7 +639,7 @@ public class Map {
     			}
     		}
     	}
-    	System.out.println(a);
+    	
     }
 
     public boolean random(float a, float b)
@@ -649,7 +652,91 @@ public class Map {
     		return false;
     	}
     }
-
+    public void generateStartandGoal()
+    {
+    	boolean foundGoal = false;
+    	boolean foundStart = false;
+    	while (!foundGoal && !foundStart)
+    	{
+    	for (int i = 0;i<159;i++)
+    	{
+    		for (int j = 0;j<119;j++)
+    		{
+    			Random ran = new Random();
+    			int prob = ran.nextInt(8960);
+    			if (prob == 2333 && cell[i][j].type !='0')
+    			{
+    				Goal = new Point(i,j,1);
+    			}
+    			if (prob == 666  && cell[i][j].type !='0')
+    			{
+    				Start = new Point(i,j,1);
+    			}
+    		}
+    	}
+    	for (int i1 = 0;i1<20;i1++)
+    	{
+    		for (int j1 = 21;j1<99;j1++)
+    		{
+    			Random ran = new Random();
+    			int prob = ran.nextInt(3000);
+    			if (prob == 2333 && cell[i1][j1].type !='0')
+    			{
+    				Goal = new Point(i1,j1,1);
+    			}
+    			if (prob == 666  && cell[i1][j1].type !='0')
+    			{
+    				Start = new Point(i1,j1,1);
+    			}
+    		}
+    	}
+    	for (int i2 = 139;i2<159;i2++)
+    	{
+    		for (int j2 = 20;j2<99;j2++)
+    		{
+    			Random ran = new Random();
+    			int prob = ran.nextInt(3000);
+    			if (prob == 2333 && cell[i2][j2].type !='0')
+    			{
+    				Goal = new Point(i2,j2,1);
+    			}
+    			if (prob == 666  && cell[i2][j2].type !='0')
+    			{
+    				Start = new Point(i2,j2,1);
+    			}
+    		}
+    	}
+    	for (int i3 = 0;i3<159;i3++)
+    	{
+    		for (int j3 = 99;j3<119;j3++)
+    		{
+    			Random ran = new Random();
+    			int prob = ran.nextInt(3000);
+    			if (prob == 2333 && cell[i3][j3].type !='0')
+    			{
+    				Goal = new Point(i3,j3,1);
+    			}
+    			if (prob == 666  && cell[i3][j3].type !='0')
+    			{
+    				Start = new Point(i3,j3,1);
+    			}
+    		}
+    	}
+    	
+    	if(( Goal.x!=0 || Goal.y!=0) && (Start.x!=0 || Start.y!=0) && Math.abs(Goal.x-Start.x)+Math.abs(Goal.y-Start.y)>100)
+    	{
+    		foundGoal = true;
+    		foundStart = true;
+    		
+    	}
+    	}
+    	
+    }
+    
+    public void generateStart()
+    {
+    	
+    }
 	public void Produce_map(){
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter("Output_map.txt"));
