@@ -826,7 +826,8 @@ public class Map {
 				int y = current.gety();
 				int xi = (i % 3) - 1;
 				int yi = (i / 3) - 1;
-				Point at = new Point(x + xi, y+yi);// this part check if this location is valid;
+				Point at = new Point(x + xi, y+yi);
+				if(x+xi<0 || x+xi>159 || y+yi<0 || y+yi > 119) continue;// this part check if this location is valid;
 				double gCost = current.gCost + getgCost(current.point, at);
 				double hCost = gethCost(at,Goal);
 				Cell cellat = new Cell(x + xi,y+yi);
@@ -843,6 +844,39 @@ public class Map {
 
 	//**************************************** this part is very important **************************
 	private double getgCost(Point x , Point y){
+		//move diagonally
+		if (Math.abs(x.x-y.x)==1 && Math.abs(x.y-y.y)==1){
+			//*******from 2 to others*********
+			//// travel between hard to traverse cells
+			if(cell[x.x][x.y].type=='2'&& cell[y.x][y.y].type=='2') return 2;
+			//// travel from htt to unblocked
+			if(cell[x.x][x.y].type=='2'&& cell[y.x][y.y].type=='1') return Math.sqrt(2)/2+Math.sqrt(8)/2;
+			//// travel from htt to unblocked highway
+			if(cell[x.x][x.y].type=='2'&& cell[y.x][y.y].type=='a') return Math.sqrt(2)/2+Math.sqrt(8)/2;
+			//// travel from htt to htt highway
+			if(cell[x.x][x.y].type=='2'&& cell[y.x][y.y].type=='b') return 2;
+			//// travel from htt to blocked
+			if(cell[x.x][x.y].type=='2'&& cell[y.x][y.y].type=='0') return 1000;
+			//*******from 1 to others*********
+			//// travel between hard to traverse cells
+			if(cell[x.x][x.y].type=='1'&& cell[y.x][y.y].type=='2') return Math.sqrt(2)/2+Math.sqrt(8)/2;
+			//// travel from htt to unblocked
+			if(cell[x.x][x.y].type=='1'&& cell[y.x][y.y].type=='1') return Math.sqrt(2);
+			//// travel from htt to unblocked highway
+			if(cell[x.x][x.y].type=='1'&& cell[y.x][y.y].type=='a') return Math.sqrt(2);
+			//// travel from htt to htt highway
+			if(cell[x.x][x.y].type=='1'&& cell[y.x][y.y].type=='b') return Math.sqrt(2)/2+Math.sqrt(8)/2;
+			//// travel from htt to blocked
+			if(cell[x.x][x.y].type=='1'&& cell[y.x][y.y].type=='0') return 1000;
+
+
+			
+		}else{
+		//move horizontally or vertically
+			
+		}
+		
+		
 		
 		return 1;
 	}
