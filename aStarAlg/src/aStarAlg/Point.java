@@ -13,10 +13,10 @@ public class Point {
 		y = row;
 	}
 
-	public boolean equals(Object object) {
-		if (!(object instanceof Point)) return false;
-		Point p = (Point) object;
-		if (p.x == this.x && p.y == this.y) return true;
-		return false;
-	}
+//	public boolean equals(Object object) {
+//		if (!(object instanceof Point)) return false;
+//		Point p = (Point) object;
+//		if (p.x == this.x && p.y == this.y) return true;
+//		return false;
+//	}
 }

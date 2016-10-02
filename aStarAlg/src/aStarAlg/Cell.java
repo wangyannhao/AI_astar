@@ -3,7 +3,7 @@ package aStarAlg;
 public class Cell {
     public int coordinateX, coordinateY;
     public char type;
-    public double cost;
+    public double fCost;
     public int index;
     public Point point = new Point(coordinateX,coordinateY);
     public Cell parent = null;
@@ -18,10 +18,7 @@ public class Cell {
         coordinateX = x;
         coordinateY = y;
         type = '1';
-        cost = 1.0;
         index = 0;
-
-
     }
     public void setcoordinate(int x, int y){
         coordinateX = x;
@@ -32,9 +29,7 @@ public class Cell {
         type = t;
     }
 
-    public void setcost(float c) {
-        cost = c;
-    }
+
     
     public int getx() {
     	return coordinateX;
