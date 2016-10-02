@@ -145,6 +145,17 @@ public abstract class PathFinding {
 			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='b') return Math.sqrt(2)/2+Math.sqrt(8)/2;
 			//// travel from htt to blocked
 			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='0') return 1000;		
+			//*******from 0 to others*********
+			//// travel between hard to traverse cells
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='2') return 2333;
+			//// travel from htt to unblocked
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='1') return 2333;
+			//// travel from htt to unblocked highway
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='a') return 2333;
+			//// travel from htt to htt highway
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='b') return 2333;
+			//// travel from htt to blocked
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='0') return 2333;		
 		}else{
 			//==========================================move horizontally or vertically=================================================
 			//*******from 2 to others*********
@@ -190,9 +201,20 @@ public abstract class PathFinding {
 			//// travel from htt to htt highway
 			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='b') return 0.325;
 			//// travel from htt to blocked
-			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='0') return 1000;		
+			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='0') return 1000;	
+			//*******from 0 to others*********
+			//// travel between hard to traverse cells
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='2') return 2333;
+			//// travel from htt to unblocked
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='1') return 2333;
+			//// travel from htt to unblocked highway
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='a') return 2333;
+			//// travel from htt to htt highway
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='b') return 2333;
+			//// travel from htt to blocked
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='0') return 2333;	
 		}
-		return 2000;
+		return 666;
 	}
 
 	public double gethCost(Point x, Point Goal){

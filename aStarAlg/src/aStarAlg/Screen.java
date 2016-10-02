@@ -2,11 +2,12 @@ package aStarAlg;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.Graphics;
-import java.util.Random;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
 
 public class Screen extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Screen ()
 	{
 		
@@ -15,9 +16,6 @@ public class Screen extends JPanel{
 	{
 		Map hehe = new Map();
 		hehe.generateMap();
-		//hehe.Produce_map();
-		Random random = new Random();
-		int ran = random.nextInt(130);
 		for (int i = 0;i<160;i++)
     	{
     		for (int j = 0;j<120;j++)
