@@ -5,22 +5,22 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.*;
 import java.io.*;
-import java.util.Collections;
 
 
 public class Map {
-	public List<Point> highwaylist = new ArrayList<Point>();
 	public Point Goal = new Point(0,0,1);
 	public Point Start = new Point(0,0,1);
-	public Map()
-	{
-
+	public Cell[][] cell ;
+	public int Row = 120;
+	public int Column = 160;
+    int[] x = new int[8];
+    int[] y = new int[8];
+	
+	private List<Point> highwaylist = new ArrayList<Point>();
+	
+	public Map(){
+		initiate();
 	}
-
-	public static Cell[][] cell ;
-
-	public final int Row = 120;
-	public final int Column = 160;
 
 	public void generateMap(){
 		initiate();
@@ -30,35 +30,23 @@ public class Map {
 		{
 			if (generateHighway(lines))
 			{
-
 				lines = lines+1;
 			}
 		}
 		generateBlockedCell();
 		generateStartandGoal();
-	}
-	//******* need to change ********
-	private Comparator<Cell> cellSorter = new Comparator<Cell>(){
-		public int compare(Cell arg0, Cell arg1){
-			if(arg1.fCost() < arg0.fCost()) return +1;
-			if(arg1.fCost() > arg0.fCost()) return -1;
-			return 0;
-		}
-	};    
+	} 
 	
 	public void hardCellgenerate()
 	{
-		int[] x = new int[8];
-		int[] y = new int[8];
+		x = new int[8];
+		y = new int[8];
 		/* set the boundaries for x,y generated */
 		int x_min = 15;
 		int y_min = 15;
 		int x_max = 105;
 		int y_max = 145;
-		Random random1 = new Random();
-		Random random2 = new Random();
-		int deltax = random1.nextInt(130);
-		int deltay = random1.nextInt(90);
+
 		/* generate 8 random coordinate */
 		for(int i = 0; i < 8; i++ ){
 			x[i] = x_min + (int) (Math.random() * (x_max - x_min) + 1);
@@ -78,7 +66,6 @@ public class Map {
 					if(Math.random() < 0.5)
 					{
 						cell[j][k].type = '2';
-						cell[j][k].cost = 2.0;
 					}
 				}
 			}
@@ -87,15 +74,10 @@ public class Map {
 
 	public boolean generateHighway(int index)
 	{	
-
-		boolean a = random(0.5f,0.5f);
-		boolean b = random(0.5f,0.5f);
 		Random random1 = new Random();
 		int bound = random1.nextInt(4);
-
 		int maxDistance = 0;
 		List<Point> highway = new ArrayList<Point>();
-
 		//*********************************************** UP BOUNDARY ********************************************
 		if (bound==0)
 		{
@@ -110,12 +92,9 @@ public class Map {
 			int i = 0;
 			while (highway.get(highway.size()-1).x!=0 && highway.get((highway.size()-1)).x!=159&&highway.get((highway.size()-1)).y !=119 && i<20 )
 			{
-				//int dir=3;
-
 				y = y +1;
 				highway.add(new Point(x,y,3));
 				maxDistance = maxDistance+1;
-
 				i = i+1;
 			}
 
@@ -127,13 +106,10 @@ public class Map {
 			while(highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).x!=159 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119)
 			{
 				int dir = chooseDir2(highway.get((highway.size()-1)).Dir);
-
-
 				if (dir==1)
 				{
 					for (int c = 0;c<20;c++)
 					{
-
 						x = x + 1;
 						if (ifHitSelf(highway,new Point(x,y,dir)))
 						{
@@ -141,16 +117,13 @@ public class Map {
 						}
 						highway.add(new Point(x,y,dir));
 						maxDistance = maxDistance+1;
-
 						if (ifHitSelf(highway,highway.get((highway.size()-1)))) {
 							return false;
 						}
-
 						if (highway.get((highway.size()-1)).x==0 || highway.get((highway.size()-1)).x==159 || highway.get((highway.size()-1)).y==0||highway.get((highway.size()-1)).y ==119)
 						{
 							c=20;
 						}
-
 					}
 				}else if (dir == 2)
 				{
@@ -163,7 +136,6 @@ public class Map {
 						}
 						highway.add(new Point(x,y,dir));
 						maxDistance = maxDistance+1;
-
 						if (highway.get((highway.size()-1)).x==0 || highway.get((highway.size()-1)).x==159 || highway.get((highway.size()-1)).y==0||highway.get((highway.size()-1)).y ==119)
 						{
 							c=20;
@@ -180,12 +152,10 @@ public class Map {
 						}
 						highway.add(new Point(x,y,dir));
 						maxDistance = maxDistance+1;
-
 						if (highway.get((highway.size()-1)).x==0 || highway.get((highway.size()-1)).x==159 || highway.get((highway.size()-1)).y==0||highway.get((highway.size()-1)).y ==119)
 						{
 							c=20;
 						}
-
 					}
 				}else if (dir == 4)
 				{
@@ -202,12 +172,9 @@ public class Map {
 						{
 							c=20;
 						}
-
 					}
 				}
-
 			}
-
 			if (maxDistance <100)
 			{
 				return false;
@@ -224,7 +191,6 @@ public class Map {
 			int i = 0;
 			while (highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119 && i<20 )
 			{
-
 				x = x-1;
 				highway.add(new Point(x,y,2));
 				maxDistance = maxDistance+1;
@@ -239,12 +205,10 @@ public class Map {
 			while(highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).x!=159 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119)
 			{
 				int dir = chooseDir2(highway.get((highway.size()-1)).Dir);
-
 				if (dir==1)
 				{
 					for (int c = 0;c<20;c++)
 					{
-
 						x = x + 1;
 						if (ifHitSelf(highway,new Point(x,y,dir)))
 						{
@@ -256,7 +220,6 @@ public class Map {
 						{
 							c=20;
 						}
-
 					}
 				}else if (dir == 2)
 				{
@@ -273,7 +236,6 @@ public class Map {
 						{
 							c=20;
 						}
-
 					}
 				}else if(dir == 3)
 				{
@@ -290,7 +252,6 @@ public class Map {
 						{
 							c=20;
 						}
-
 					}
 				}else if (dir == 4)
 				{
@@ -307,17 +268,13 @@ public class Map {
 						{
 							c=20;
 						}
-
 					}
 				}
-
 			}
-
 			if (maxDistance <100)
 			{
 				return false;
 			}
-
 		}else if (bound==2){
 			//*********************************************** DOWN BOUNDARY ********************************************
 			Random random = new Random();
@@ -342,12 +299,10 @@ public class Map {
 			while(highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).x!=159 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119)
 			{
 				int dir = chooseDir2(highway.get((highway.size()-1)).Dir);
-
 				if (dir==1)
 				{
 					for (int c = 0;c<20;c++)
 					{
-
 						x = x + 1;
 						if (ifHitSelf(highway,new Point(x,y,dir)))
 						{
@@ -359,7 +314,6 @@ public class Map {
 						{
 							c=20;
 						}
-
 					}
 				}else if (dir == 2)
 				{
@@ -391,7 +345,6 @@ public class Map {
 						if (highway.get((highway.size()-1)).x==0 || highway.get((highway.size()-1)).x==159 || highway.get((highway.size()-1)).y==0||highway.get((highway.size()-1)).y ==119)
 						{
 							c=20;
-
 						}
 					}
 				}else if (dir == 4)
@@ -409,17 +362,13 @@ public class Map {
 						{
 							c=20;
 						}
-
 					}
 				}
-
 			}
-
 			if (maxDistance <100)
 			{
 				return false;
 			}
-
 		}else if (bound==3){
 			//*********************************************** LEFT BOUNDARY ********************************************
 			Random random = new Random();
@@ -442,13 +391,10 @@ public class Map {
 			while(highway.get((highway.size()-1)).x!=0 && highway.get((highway.size()-1)).x!=159 && highway.get((highway.size()-1)).y!=0&&highway.get((highway.size()-1)).y !=119)
 			{
 				int dir = chooseDir2(highway.get((highway.size()-1)).Dir);
-
-
 				if (dir==1)
 				{
 					for (int c = 0;c<20;c++)
 					{
-
 						x = x + 1;
 						if (ifHitSelf(highway,new Point(x,y,dir)))
 						{
@@ -493,7 +439,6 @@ public class Map {
 						{
 							c=20;
 						}
-
 					}
 				}else if (dir == 4)
 				{
@@ -510,12 +455,9 @@ public class Map {
 						{
 							c=20;
 						}
-
 					}
 				}
-
 			}
-
 			if (maxDistance <100)
 			{
 				return false;
@@ -530,8 +472,6 @@ public class Map {
 				cell[highway.get(i).x][highway.get(i).y].setcelltype('a');
 				cell[highway.get(i).x][highway.get(i).y].index = index;
 				highwaylist.add(new Point(highway.get(i).x,highway.get(i).y,highway.get(i).Dir));
-
-
 			}else if (cell[highway.get(i).x][highway.get(i).y].type == '2')
 			{
 				cell[highway.get(i).x][highway.get(i).y].setcelltype('b');
@@ -539,12 +479,8 @@ public class Map {
 				highwaylist.add(new Point(highway.get(i).x,highway.get(i).y,highway.get(i).Dir));
 			}
 		}
-
 		return true;
 	}
-
-
-
 	public int chooseDir2(int dir)
 	{
 		Random random = new Random();
@@ -596,17 +532,15 @@ public class Map {
 		}
 		return dir;
 	}
-
+	
 	public boolean ifHitSelf(List<Point> h,Point p)
 	{
-
 		for (int i = 0;i<h.size();i++)
 		{
 			if (h.get(i).x == p.x && h.get(i).y == p.y )
 			{
 				return true;
 			}
-
 		}
 		for (int i = 0;i<highwaylist.size();i++)
 		{
@@ -614,7 +548,6 @@ public class Map {
 			{
 				return true;
 			}
-
 		}
 		return false;
 	}
@@ -628,10 +561,9 @@ public class Map {
 			for (int j = 0;j<120;j++)
 			{
 				cell[i][j] = new Cell(i,j) ;
-
+				//cell[i][j].type = '1';
 			}
 		}
-
 	}
 	public void generateBlockedCell()
 	{
@@ -649,7 +581,6 @@ public class Map {
 				}
 			}
 		}
-
 	}
 
 	public boolean random(float a, float b)
@@ -662,6 +593,7 @@ public class Map {
 			return false;
 		}
 	}
+	
 	public void generateStartandGoal()
 	{
 		boolean foundGoal = false;
@@ -737,20 +669,20 @@ public class Map {
 			{
 				foundGoal = true;
 				foundStart = true;
-
 			}
 		}
-
 	}
 
-	public void generateStart()
-	{
-
-	}
-	public void Produce_map(){
+	public void Produce_map(String file){
 		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter("Output_map.txt"));
-			out.write(Row + "," + Column + "\n");
+			BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            out.write(Start.x + "," + Start.y + "\n");
+            out.write(Goal.x + "," + Goal.y + "\n");
+            //output 8 centers of hard-to-traverse cells
+            for(int c = 0; c < 8; c++){
+                out.write(x[c] + "," +y[c]+ "\n");
+            }
+            out.write(Row + "," + Column + "\n");
 			for(int i = 0; i < Row; i ++){
 				for(int j = 0; j < Column; j++){
 					if(cell[j][i].index == 1)
@@ -792,14 +724,13 @@ public class Map {
 					}
 				}
 			}
-
 			out.close();
 		} catch (IOException e) {}
 	}
 
-    public void Read_map(){
+    public void Read_map(String address){
         try {
-            BufferedReader in = new BufferedReader(new FileReader("/Users/admin/Desktop/AI/project1/AI_astar/Test.txt"));
+            BufferedReader in = new BufferedReader(new FileReader(address));
             // read the coordinates of start point and goal point
             String str;
             str = in.readLine();
@@ -810,10 +741,20 @@ public class Map {
             ar = str.split(",");
             Goal.x = Integer.parseInt(ar[0]);
             Goal.y = Integer.parseInt(ar[1]);
-            // omit 8 centers of the hard to traverse regions and size of map
-            for(int b = 0; b < 9; b++){
+            // read 8 centers of the hard to traverse regions and size of map
+            for(int b = 0; b < 8; b++){
                 str = in.readLine();
+                ar = str.split(",");
+                x[b] = Integer.parseInt(ar[0]);
+                y[b] = Integer.parseInt(ar[1]);
+
             }
+            //read size of the map
+            str = in.readLine();
+            ar = str.split(",");
+            Row = Integer.parseInt(ar[0]);
+            Column = Integer.parseInt(ar[1]);
+            //get type of every cell in map
             int row_index = 0;
             while ((str = in.readLine())!= null) {
                 ar = str.split(",");
@@ -834,72 +775,6 @@ public class Map {
             System.out.println("File Read Error");
         }
     }
-	
-	// **********************************************A Star*******************************************
-	public List<Cell> findPath(Point Start, Point Goal){
-		List<Cell> openList  = new ArrayList<Cell>();
-		List<Cell> closedList = new ArrayList<Cell>();
-
-		Cell current = new Cell(Start.x, Start.y);
-		openList.add(current);
-
-		while(openList.size()>0 ){
-			Collections.sort(openList, cellSorter);
-			current = openList.get(0); // get the cell with the smallest f(n)
-			if (current.point.equals(Goal)){
-				List<Cell> path = new ArrayList<Cell>();
-				while(current.parent !=null){
-					path.add(current);
-					current = current.parent;
-				}
-				openList.clear();
-				closedList.clear();
-				return path;
-			}   
-			openList.remove(current);
-			closedList.add(current);
-			for (int i = 0;i<9;i++){
-				if (i ==4 ) continue;
-				int x = current.getx();
-				int y = current.gety();
-				int xi = (i % 3) - 1;
-				int yi = (i / 3) - 1;
-				Point at = new Point(x + xi, y+yi);// this part check if this location is valid;
-				double gCost = current.gCost + getgCost(current.point, at);
-				double hCost = gethCost(at,Goal);
-				Cell cellat = new Cell(x + xi,y+yi);
-				cellat.gCost = gCost;
-				cellat.hCost = hCost;
-				if (pointInList(closedList, at) && gCost >= current.gCost) continue;
-				if (!pointInList(openList,at) || gCost < current.gCost) openList.add(cellat);
-
-			}
-		}
-		return new ArrayList<Cell>();
-	}
-
-
-	//**************************************** this part is very important **************************
-	private double getgCost(Point x , Point y){
-		
-		return 1;
-	}
-
-	private double gethCost(Point x, Point Goal){
-		double dx = x.x-Goal.x;
-		double dy = x.y-Goal.y;
-		return Math.sqrt(dx*dx + dy*dy);
-	}
-
-	private boolean pointInList(List<Cell> list, Point p){
-		for (Cell n : list) {
-			if(n.point.equals(p)) return true;
-		}
-		return false;
-	}
-
-
-
 }
 
 

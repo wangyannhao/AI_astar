@@ -14,8 +14,10 @@ public class Screen extends JPanel{
 	public void paint(Graphics g)
 	{
 		Map hehe = new Map();
-		hehe.Read_map();
+		hehe.Read_map("/Users/admin/Desktop/AI/Output_map(submitted).txt");
+		hehe.Produce_map("test.txt");
 		//hehe.generateMap();
+
 		//hehe.Produce_map();
 		Random random = new Random();
 		int ran = random.nextInt(130);
@@ -23,29 +25,29 @@ public class Screen extends JPanel{
     	{
     		for (int j = 0;j<120;j++)
     		{
-    			if (Map.cell[i][j].type == '1')
+    			if (hehe.cell[i][j].type == '1')
     			{
     				g.setColor(Color.lightGray);
     				g.drawRect(5*i, 5*j, 5, 5);
     			}
-    			else if (Map.cell[i][j].type == '2')
+    			else if (hehe.cell[i][j].type == '2')
     			{
     				g.setColor(Color.gray);
     				g.fillRect(5*i, 5*j, 5,5);
     			}
-    			else if (Map.cell[i][j].type == 'a')
+    			else if (hehe.cell[i][j].type == 'a')
     			{
     				g.setColor(new Color(72,170,237));
     				g.fillRect(5*i, 5*j, 5,5);
 
     			}
-    			else if (Map.cell[i][j].type == 'b')
+    			else if (hehe.cell[i][j].type == 'b')
     			{
     				g.setColor(new Color(53,80,159));
     				g.fillRect(5*i, 5*j, 5,5);
     				
     			}
-    			else if (Map.cell[i][j].type == '0')
+    			else if (hehe.cell[i][j].type == '0')
     			{
     				g.setColor(Color.black);
     				g.fillRect(5*i, 5*j, 5,5);
