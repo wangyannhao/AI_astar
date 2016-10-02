@@ -796,6 +796,44 @@ public class Map {
 			out.close();
 		} catch (IOException e) {}
 	}
+
+    public void Read_map(){
+        try {
+            BufferedReader in = new BufferedReader(new FileReader("/Users/admin/Desktop/AI/project1/AI_astar/Test.txt"));
+            // read the coordinates of start point and goal point
+            String str;
+            str = in.readLine();
+            String[] ar = str.split(",");
+            Start.x = Integer.parseInt(ar[0]);
+            Start.y = Integer.parseInt(ar[1]);
+            str = in.readLine();
+            ar = str.split(",");
+            Goal.x = Integer.parseInt(ar[0]);
+            Goal.y = Integer.parseInt(ar[1]);
+            // omit 8 centers of the hard to traverse regions and size of map
+            for(int b = 0; b < 9; b++){
+                str = in.readLine();
+            }
+            int row_index = 0;
+            while ((str = in.readLine())!= null) {
+                ar = str.split(",");
+                for(int column_index =0; column_index < ar.length; column_index++){
+                    cell[column_index][row_index].coordinateX = column_index;
+                    cell[column_index][row_index].coordinateY = row_index;
+                    if(ar[column_index].length()== 2){
+                        cell[column_index][row_index].type = ar[column_index].charAt(0);
+                        cell[column_index][row_index].index = Character.getNumericValue(ar[column_index].charAt(1));
+                    }else{
+                        cell[column_index][row_index].type = ar[column_index].charAt(0);
+                    }
+                }
+                row_index ++;
+            }
+            in.close();
+        } catch (IOException e) {
+            System.out.println("File Read Error");
+        }
+    }
 	
 	// **********************************************A Star*******************************************
 	public List<Cell> findPath(Point Start, Point Goal){
