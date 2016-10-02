@@ -1,0 +1,30 @@
+package aStarAlg;
+
+import java.util.Comparator;
+import java.util.List;
+
+public abstract class PathFinding {
+	//******* need to change ********
+	private Comparator<Cell> cellSorter = new Comparator<Cell>(){
+		public int compare(Cell arg0, Cell arg1){
+			if(arg1.fCost() < arg0.fCost()) return +1;
+			if(arg1.fCost() > arg0.fCost()) return -1;
+			return 0;
+		}
+	}; 
+	
+	private boolean pointInList(List<Cell> list, Point p){
+		for (Cell n : list) {
+			if(n.point.equals(p)) return true;
+		}
+		return false;
+	}
+	
+	public abstract List<Cell> PathFinding(Map map, Point Start, Point Goal);
+	
+	private double gethCost(Point x, Point Goal){
+		double dx = x.x-Goal.x;
+		double dy = x.y-Goal.y;
+		return Math.sqrt(dx*dx + dy*dy);
+	}
+}

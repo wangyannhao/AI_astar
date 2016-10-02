@@ -1,0 +1,5 @@
+package aStarAlg;
+
+public abstract class PathFinding {
+
+}
