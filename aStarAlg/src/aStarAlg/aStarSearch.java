@@ -11,7 +11,7 @@ public class aStarSearch extends PathFinding {
 	public void insertCost(Cell cellat, double g) {
 		// TODO Auto-generated method stub
 		cellat.gCost = g;
-		Point at = new Point(cellat.coordinateX,cellat.coordinateY);
+		Point at = new Point(cellat.getx(),cellat.gety());
 		double hCost = gethCost(at,Goal);
 		cellat.hCost = hCost;
 		cellat.fCost = g+hCost;
