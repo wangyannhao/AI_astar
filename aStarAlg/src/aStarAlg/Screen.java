@@ -57,12 +57,9 @@ public class Screen extends JPanel{
     			}
     		}
     	}
-
 		for (int i = 0; i< path.size();i++){
 			g.setColor(Color.red);
 			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
 		}
-		g.setColor(Color.green);
-		g.fillRect(90*5, 103*5, 5, 5);
 	}
 }

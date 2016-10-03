@@ -49,7 +49,7 @@ public class Binary_heap {
 
     public void bubbleUp(){
         int pos = position -1;
-        while(bheap[pos].fCost < bheap[pos/2].fCost&& pos > 1){
+        while( pos > 1 && bheap[pos].fCost < bheap[pos/2].fCost){
             swap(pos, pos/2);
             pos = pos/2;
         }
@@ -88,15 +88,18 @@ public class Binary_heap {
         bheap[b] = temp;
     }
 
-    public boolean find(Cell c){
+    public boolean find(Point c){
+        if(position == 0){
+            return false;
+        }
         for(int i = 1; i < position -1; i++){
-            if(c.coordinateX == bheap[i].coordinateX && c.coordinateY == bheap[i].coordinateY){
+            if(c.x == bheap[i].coordinateX && c.y == bheap[i].coordinateY){
                 return true;
             }
         }
         return  false;
     }
-
+    /*
     public static void main(String args[]){
         int arrA [] = {3,2,1,7,8,4,10,16,12,3,4,5,8,0,2,1,4};
         System.out.print("Original Array : ");
@@ -104,7 +107,7 @@ public class Binary_heap {
             System.out.print("  " + arrA[i]);
         }
         Binary_heap m = new Binary_heap(4);
-        System.out.print("\nMin-Heap : ");
+        System.out.print("Min-Heap : ");
 
         //m.display();
         System.out.print("Extract Min :");
@@ -112,4 +115,5 @@ public class Binary_heap {
             System.out.print("  " + m.extractMin());
         }
     }
+    */
 }
