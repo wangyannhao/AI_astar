@@ -32,7 +32,6 @@ public abstract class PathFinding {
 	}
 
 	public List<Cell> findPath(){
-		
 		Cell current = new Cell(Start.x, Start.y);
 		openList.insert(current);
 		while(openList.position > 1 ){

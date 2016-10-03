@@ -1,29 +1,34 @@
 
 package aStarAlg;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import java.awt.Graphics;
-import java.util.List;
 
 
 
-public class Draw extends JPanel{
+public class DrawMap extends JPanel{
 	/**
 	 * 
 	 */
+	public Map map;
 	private static final long serialVersionUID = 1L;
-	public Draw ()
+	public DrawMap (Map m)
 	{
+		super();
+		map = m;
+		setPreferredSize(new Dimension(160*5,120*5));
 		
 	}
 	public void paint(Graphics g)
 	{
 
-		Map map = new Map();
-		map.Read_map("test.txt");
+		//Map map = new Map();
+		//map.Read_map("test.txt");
 		//map.generateMap();
-		aStarWeightedSearch search = new aStarWeightedSearch(map, map.Goal,map.Start,1);
-		List<Cell> path = search.findPath();
+		//aStarWeightedSearch search = new aStarWeightedSearch(map, map.Goal,map.Start,1);
+		//List<Cell> path = search.findPath();
 		
 		for (int i = 0;i<160;i++)
     	{
@@ -31,6 +36,8 @@ public class Draw extends JPanel{
     		{
     			if (map.cell[i][j].type == '1')
     			{
+    				g.setColor(Color.white);
+    				g.fillRect(5*i, 5*j, 5, 5);
     				g.setColor(Color.lightGray);
     				g.drawRect(5*i, 5*j, 5, 5);
     			}
@@ -57,20 +64,9 @@ public class Draw extends JPanel{
     			}
     		}
     	}
-		for (int i =1; i< search.openList.position;i++){
-			g.setColor(Color.orange);
-			g.fillRect(5*search.openList.bheap[i].getx(), 5*search.openList.bheap[i].gety(), 5,5);
-		}
-		for (int i = 0; i< search.closedList.size();i++){
-			g.setColor(Color.green);
-			g.fillRect(5*search.closedList.get(i).getx(), 5*search.closedList.get(i).gety(), 5,5);
-		}
-		
-		for (int i = 0; i< path.size();i++){
-			g.setColor(Color.red);
-			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
-		}
-		
+		g.setColor(Color.red);
+		g.fillRect(map.Start.x*5, 5*map.Start.y, 5,5);
+		g.fillRect(map.Goal.x*5, 5*map.Goal.y, 5,5);
 
 	}
 }

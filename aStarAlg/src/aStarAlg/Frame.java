@@ -1,5 +1,4 @@
 package aStarAlg;
-import java.awt.GridLayout;
 import javax.swing.JFrame;
 
 
@@ -9,7 +8,7 @@ public class Frame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Draw s;
+	//Draw s;
 	
 	public Frame()
 	{
@@ -17,21 +16,20 @@ public class Frame extends JFrame{
 		setSize(160*5+100,120*5+100);
 		setResizable(false);
 		setTitle("Map");
-		
-		//init();
+
 	}
 	
 	public void init()
 	{
-		setLocationRelativeTo(null);
-		
-		//setLayout(new GridLayout(1,1,0,0));
-		
-		s = new Draw();
-		
-		add(s);
-		
-		setVisible(true);
+//		setLocationRelativeTo(null);
+//		
+//		//setLayout(new GridLayout(1,1,0,0));
+//		
+//		s = new Draw();
+//		
+//		add(s);
+//		
+//		setVisible(true);
 	}
 	
 
