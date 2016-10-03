@@ -14,9 +14,9 @@ public class Screen extends JPanel{
 	public void paint(Graphics g)
 	{
 		Map hehe = new Map();
-		hehe.Read_map("/Users/admin/Desktop/AI/Output_map(submitted).txt");
-		hehe.Produce_map("test.txt");
-		//hehe.generateMap();
+		//hehe.Read_map("/Users/admin/Desktop/AI/Output_map(submitted).txt");
+		//hehe.Produce_map("test.txt");
+		hehe.generateMap();
 
 		//hehe.Produce_map();
 		Random random = new Random();
