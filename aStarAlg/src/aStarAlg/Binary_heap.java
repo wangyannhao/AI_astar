@@ -5,11 +5,11 @@ package aStarAlg;
  */
 public class Binary_heap {
     public int size;
-    public int[] bheap;
+    public Cell[] bheap;
     public int position;
     public Binary_heap(int size){
         this.size = size;
-        bheap = new int[size + 1];
+        bheap = new Cell[size + 1];
         position = 0;
     }
     /*
@@ -21,17 +21,18 @@ public class Binary_heap {
         }
     }
     */
-
+    /*
     public void display(){
         for(int i = 1; i < bheap.length; i++){
             System.out.print(" "+bheap[i]);
         }
     }
+    */
 
 
-    public void insert(int x){
+    public void insert(Cell x){
         if(position - 1 == size){
-            int[] temp = new int[size * 2 +1];
+            Cell[] temp = new Cell[size * 2 +1];
             System.arraycopy(bheap, 0, temp, 0, size + 1);
             size = size * 2;
             bheap = temp;
@@ -48,16 +49,16 @@ public class Binary_heap {
 
     public void bubbleUp(){
         int pos = position -1;
-        while(bheap[pos] < bheap[pos/2]&& pos > 1){
+        while(bheap[pos].fCost < bheap[pos/2].fCost&& pos > 1){
             swap(pos, pos/2);
             pos = pos/2;
         }
     }
 
-    public int extractMin(){
-        int min = bheap[1];
+    public Cell extractMin(){
+        Cell min = bheap[1];
         bheap[1] = bheap[position - 1];
-        bheap[position - 1] = 0;
+        bheap[position - 1] = null;
         position --;
         sinkDown(1);
         return min;
@@ -65,8 +66,8 @@ public class Binary_heap {
 
     public void sinkDown(int k){
         int pos = k;
-        while(pos * 2 + 1 <= (position - 1)&&(bheap[pos] > bheap[pos * 2]|| bheap[pos] > bheap[pos * 2])) {
-            if (bheap[pos * 2] < bheap[pos * 2 + 1]) {
+        while(pos * 2 + 1 <= (position - 1)&&(bheap[pos].fCost > bheap[pos * 2].fCost|| bheap[pos].fCost > bheap[pos * 2].fCost)) {
+            if (bheap[pos * 2].fCost < bheap[pos * 2 + 1].fCost) {
                 swap(pos, pos * 2);
                 pos = pos * 2;
             } else {
@@ -75,16 +76,25 @@ public class Binary_heap {
             }
         }
         if(pos * 2 == position -1){
-            if(bheap[pos] > bheap[pos * 2]){
+            if(bheap[pos].fCost > bheap[pos * 2].fCost){
                 swap(pos, pos * 2);
             }
         }
     }
 
     public void swap(int a, int b){
-        int temp = bheap[a];
+        Cell temp = bheap[a];
         bheap[a] = bheap[b];
         bheap[b] = temp;
+    }
+
+    public boolean find(Cell c){
+        for(int i = 1; i < position -1; i++){
+            if(c.coordinateX == bheap[i].coordinateX && c.coordinateY == bheap[i].coordinateY){
+                return true;
+            }
+        }
+        return  false;
     }
 
     public static void main(String args[]){
@@ -95,10 +105,8 @@ public class Binary_heap {
         }
         Binary_heap m = new Binary_heap(4);
         System.out.print("\nMin-Heap : ");
-        for(int i=0;i<arrA.length;i++){
-            m.insert(arrA[i]);
-        }
-        m.display();
+
+        //m.display();
         System.out.print("Extract Min :");
         for(int i=0;i<arrA.length;i++){
             System.out.print("  " + m.extractMin());

@@ -4,12 +4,13 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.util.List;
 
-public class Screen extends JPanel{
+public class DrawMap extends JPanel {
 	/**
-	 * 
+	 *
 	 */
+
 	private static final long serialVersionUID = 1L;
-	public Screen ()
+	public DrawMap ()
 	{
 		
 	}
@@ -54,7 +55,7 @@ public class Screen extends JPanel{
     		}
     	}
 		for (int i = 0; i< path.size();i++){
-			g.setColor(Color.red);
+			g.setColor(Color.orange);
 			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
 		}
 	}

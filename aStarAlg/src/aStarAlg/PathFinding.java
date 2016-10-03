@@ -42,15 +42,15 @@ public abstract class PathFinding {
 
 	public List<Cell> findPath(){
 
-		List<Cell> openList  = new ArrayList<Cell>();
+		Binary_heap openList  = new Binary_heap(8);
 		List<Cell> closedList = new ArrayList<Cell>();
 
 		Cell current = new Cell(Start.x, Start.y);
-		openList.add(current);
+		openList.insert(current);
 
-		while(openList.size()>0 ){
-			Collections.sort(openList, cellSorter);
-			current = openList.get(0); // get the cell with the smallest f(n)
+		while(openList.position > 1){
+			//Collections.sort(openList, cellSorter);
+			current = openList.extractMin(); // get the cell with the smallest f(n)
 			if (current.coordinateX==Goal.x && current.coordinateY==Goal.y){
 				List<Cell> path = new ArrayList<Cell>();
 				while(current.parent !=null){
@@ -59,14 +59,14 @@ public abstract class PathFinding {
 				}
 				System.out.println("Path Found!!!");
 				System.out.println("Path length = "+ closedList.size());
-				System.out.println("Path cost = "+ openList.get(openList.size()-1).fCost);
-				openList.clear();
+				System.out.println("Path cost = "+ openList.extractMin().fCost);
+				//openList.clear();
 				closedList.clear();
 
 				return path;
 
 			}   
-			openList.remove(current);
+			//openList.remove(current);
 			closedList.add(current);
 
 			for (int i = 0;i<9;i++){
@@ -76,7 +76,7 @@ public abstract class PathFinding {
 
 				int xi = (i % 3) - 1;
 				int yi = (i / 3) - 1;
-				Point at = new Point(x + xi, y+yi);
+				Cell at = new Cell(x + xi, y+yi);
 				if(x+xi<0 || x+xi>159 || y+yi<0 || y+yi > 119) 
 				{
 					//System.out.println("at bound");
@@ -90,7 +90,7 @@ public abstract class PathFinding {
 				if (pointInList(closedList, at) && cellat.gCost >= current.gCost) continue;
 				//System.out.println("function used");
 				//if (pointInList(closedList, at) && cellat.gCost >= current.gCost) continue;
-				if (!pointInList(openList,at) || cellat.gCost < current.gCost ) openList.add(cellat);
+				if (openList.find(at)) openList.insert(cellat);
 				//if (!pointInList(openList,at) || cellat.gCost < current.gCost) openList.add(cellat);
 			}
 		}
@@ -98,7 +98,7 @@ public abstract class PathFinding {
 	}
 
 
-	private double getgCost(Point x, Point y) {
+	private double getgCost(Cell x, Cell y) {
 		// TODO Auto-generated method stub
 
 		//=====================================================move diagonally=================================================
