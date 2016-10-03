@@ -2,6 +2,7 @@ package aStarAlg;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.Graphics;
+import java.util.List;
 import java.util.Random;
 import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
@@ -17,10 +18,9 @@ public class Screen extends JPanel{
 		//hehe.Read_map("/Users/admin/Desktop/AI/Output_map(submitted).txt");
 		//hehe.Produce_map("test.txt");
 		hehe.generateMap();
-
+		aStarSearch search = new aStarSearch(hehe, new Point(hehe.Start.x, hehe.Start.y),new Point(hehe.Goal.x, hehe.Goal.y));
+		List<Cell> path = search.findPath();
 		//hehe.Produce_map();
-		Random random = new Random();
-		int ran = random.nextInt(130);
 		for (int i = 0;i<160;i++)
     	{
     		for (int j = 0;j<120;j++)
@@ -56,6 +56,10 @@ public class Screen extends JPanel{
     			
     		}
     	}
+    	for(int i = 0; i < path.size(); i ++){
+			g.setColor(Color.red);
+			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY,5,5);
+		}
 		
 		
 	}

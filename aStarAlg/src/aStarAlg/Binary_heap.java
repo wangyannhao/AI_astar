@@ -12,6 +12,7 @@ public class Binary_heap {
         bheap = new int[size + 1];
         position = 0;
     }
+    /*
     public void createHeap(int[] arrA ){
         if(arrA.length > 0){
             for(int i = 0; i < arrA.length; i++){
@@ -19,6 +20,7 @@ public class Binary_heap {
             }
         }
     }
+    */
 
     public void display(){
         for(int i = 1; i < bheap.length; i++){
@@ -26,7 +28,14 @@ public class Binary_heap {
         }
     }
 
+
     public void insert(int x){
+        if(position - 1 == size){
+            int[] temp = new int[size * 2 +1];
+            System.arraycopy(bheap, 0, temp, 0, size + 1);
+            size = size * 2;
+            bheap = temp;
+        }
         if(position == 0){
             bheap[position + 1] = x;
             position = 2;
@@ -84,15 +93,15 @@ public class Binary_heap {
         for(int i=0;i<arrA.length;i++){
             System.out.print("  " + arrA[i]);
         }
-        Binary_heap m = new Binary_heap(arrA.length);
+        Binary_heap m = new Binary_heap(4);
         System.out.print("\nMin-Heap : ");
-        m.createHeap(arrA);
+        for(int i=0;i<arrA.length;i++){
+            m.insert(arrA[i]);
+        }
         m.display();
         System.out.print("Extract Min :");
         for(int i=0;i<arrA.length;i++){
             System.out.print("  " + m.extractMin());
         }
-
-
     }
 }
