@@ -19,15 +19,15 @@ public abstract class PathFinding {
 			return 0;
 		}
 	}; 
-	
+
 	private boolean pointInList(List<Cell> list, Point p){
 		for (Cell n : list) {
-			if(n.point.equals(p)) return true;
+			if(n.coordinateX == p.x && n.coordinateY == p.y) return true;
 		}
 		return false;
 	}
 	public PathFinding(Map m, Point s, Point g){
-		
+
 		map = m;
 		Start = s;
 		Goal = g;
@@ -39,7 +39,7 @@ public abstract class PathFinding {
 		Goal = g;
 		weight = w;
 	}
-	
+
 	public List<Cell> findPath(){
 
 		List<Cell> openList  = new ArrayList<Cell>();
@@ -59,42 +59,44 @@ public abstract class PathFinding {
 				}
 				System.out.println("Path Found!!!");
 				System.out.println("Path length = "+ closedList.size());
+				System.out.println("Path cost = "+ openList.get(openList.size()-1).fCost);
 				openList.clear();
 				closedList.clear();
-				
+
 				return path;
-				
+
 			}   
 			openList.remove(current);
 			closedList.add(current);
-			
+
 			for (int i = 0;i<9;i++){
 				if (i ==4 ) continue;
 				int x = current.getx();
 				int y = current.gety();
+
 				int xi = (i % 3) - 1;
 				int yi = (i / 3) - 1;
 				Point at = new Point(x + xi, y+yi);
 				if(x+xi<0 || x+xi>159 || y+yi<0 || y+yi > 119) 
-					{
-					System.out.println("at bound");
+				{
+					//System.out.println("at bound");
 					continue;// this part check if this location is valid;
-					}
+				}
 				double gCost = current.gCost + getgCost(current.point, at);
 				//double hCost = gethCost(at,Goal);
-				Cell cellat = new Cell(x + xi,y+yi);
-				insertCost(cellat,gCost);
-				if (pointInList(closedList, at) ) continue;
+				Cell cellat = new Cell(x + xi , y+yi);
+				cellat.parent = current;
+				insertCost(cellat,gCost); 
+				if (pointInList(closedList, at) && cellat.gCost >= current.gCost) continue;
 				//System.out.println("function used");
 				//if (pointInList(closedList, at) && cellat.gCost >= current.gCost) continue;
-				if (!pointInList(openList,at) || cellat.gCost < current.gCost) openList.add(cellat);
-
+				if (!pointInList(openList,at) || cellat.gCost < current.gCost ) openList.add(cellat);
+				//if (!pointInList(openList,at) || cellat.gCost < current.gCost) openList.add(cellat);
 			}
 		}
 		return null;
 	}
-	
-	
+
 
 	private double getgCost(Point x, Point y) {
 		// TODO Auto-generated method stub
@@ -145,6 +147,17 @@ public abstract class PathFinding {
 			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='b') return Math.sqrt(2)/2+Math.sqrt(8)/2;
 			//// travel from htt to blocked
 			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='0') return 1000;		
+			//*******from 0 to others*********
+			//// travel between hard to traverse cells
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='2') return 2333;
+			//// travel from htt to unblocked
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='1') return 2333;
+			//// travel from htt to unblocked highway
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='a') return 2333;
+			//// travel from htt to htt highway
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='b') return 2333;
+			//// travel from htt to blocked
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='0') return 2333;		
 		}else{
 			//==========================================move horizontally or vertically=================================================
 			//*******from 2 to others*********
@@ -190,9 +203,20 @@ public abstract class PathFinding {
 			//// travel from htt to htt highway
 			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='b') return 0.325;
 			//// travel from htt to blocked
-			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='0') return 1000;		
+			if(map.cell[x.x][x.y].type=='a'&& map.cell[y.x][y.y].type=='0') return 1000;	
+			//*******from 0 to others*********
+			//// travel between hard to traverse cells
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='2') return 2333;
+			//// travel from htt to unblocked
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='1') return 2333;
+			//// travel from htt to unblocked highway
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='a') return 2333;
+			//// travel from htt to htt highway
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='b') return 2333;
+			//// travel from htt to blocked
+			if(map.cell[x.x][x.y].type=='0'&& map.cell[y.x][y.y].type=='0') return 2333;	
 		}
-		return 2000;
+		return 666;
 	}
 
 	public double gethCost(Point x, Point Goal){
@@ -200,6 +224,6 @@ public abstract class PathFinding {
 		double dy = x.y-Goal.y;
 		return Math.sqrt(dx*dx + dy*dy);
 	}
-	
+
 	public abstract void insertCost(Cell cellat, double gCost);
 }
