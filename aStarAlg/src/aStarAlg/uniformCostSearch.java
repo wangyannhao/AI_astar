@@ -15,6 +15,4 @@ public class uniformCostSearch extends PathFinding{
 		cellat.hCost = 0;
 		cellat.fCost = g;
 	}
-
-	
 }

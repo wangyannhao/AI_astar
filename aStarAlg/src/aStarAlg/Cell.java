@@ -36,7 +36,7 @@ public class Cell {
     }
     
     public int gety(){
-    	return coordinateX;
+    	return coordinateY;
     }
     
     public double fCost(double weight) {

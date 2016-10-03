@@ -10,9 +10,11 @@ import java.io.*;
 public class Map {
 	public Point Goal = new Point(0,0,1);
 	public Point Start = new Point(0,0,1);
-	public  Cell[][] cell ;
-	public final int Row = 120;
-	public final int Column = 160;
+	public Cell[][] cell ;
+	public int Row = 120;
+	public int Column = 160;
+    int[] x = new int[8];
+    int[] y = new int[8];
 	
 	private List<Point> highwaylist = new ArrayList<Point>();
 	
@@ -37,8 +39,8 @@ public class Map {
 	
 	public void hardCellgenerate()
 	{
-		int[] x = new int[8];
-		int[] y = new int[8];
+		x = new int[8];
+		y = new int[8];
 		/* set the boundaries for x,y generated */
 		int x_min = 15;
 		int y_min = 15;
@@ -674,7 +676,13 @@ public class Map {
 	public void Produce_map(String file){
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(file));
-			out.write(Row + "," + Column + "\n");
+            out.write(Start.x + "," + Start.y + "\n");
+            out.write(Goal.x + "," + Goal.y + "\n");
+            //output 8 centers of hard-to-traverse cells
+            for(int c = 0; c < 8; c++){
+                out.write(x[c] + "," +y[c]+ "\n");
+            }
+            out.write(Row + "," + Column + "\n");
 			for(int i = 0; i < Row; i ++){
 				for(int j = 0; j < Column; j++){
 					if(cell[j][i].index == 1)
@@ -733,10 +741,20 @@ public class Map {
             ar = str.split(",");
             Goal.x = Integer.parseInt(ar[0]);
             Goal.y = Integer.parseInt(ar[1]);
-            // omit 8 centers of the hard to traverse regions and size of map
-            for(int b = 0; b < 9; b++){
+            // read 8 centers of the hard to traverse regions and size of map
+            for(int b = 0; b < 8; b++){
                 str = in.readLine();
+                ar = str.split(",");
+                x[b] = Integer.parseInt(ar[0]);
+                y[b] = Integer.parseInt(ar[1]);
+
             }
+            //read size of the map
+            str = in.readLine();
+            ar = str.split(",");
+            Row = Integer.parseInt(ar[0]);
+            Column = Integer.parseInt(ar[1]);
+            //get type of every cell in map
             int row_index = 0;
             while ((str = in.readLine())!= null) {
                 ar = str.split(",");
