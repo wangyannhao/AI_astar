@@ -1,8 +1,11 @@
+
 package aStarAlg;
 import java.awt.Color;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.util.List;
+
+
 
 public class Screen extends JPanel{
 	/**
@@ -15,10 +18,11 @@ public class Screen extends JPanel{
 	}
 	public void paint(Graphics g)
 	{
+
 		Map map = new Map();
 		map.Read_map("test.txt");
 		//map.generateMap();
-		aStarSearch search = new aStarSearch(map, map.Start, map.Goal);
+		uniformCostSearch search = new uniformCostSearch(map, map.Goal,map.Start );
 		List<Cell> path = search.findPath();
 		for (int i = 0;i<160;i++)
     	{
@@ -53,9 +57,12 @@ public class Screen extends JPanel{
     			}
     		}
     	}
+
 		for (int i = 0; i< path.size();i++){
 			g.setColor(Color.red);
 			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
 		}
+		g.setColor(Color.green);
+		g.fillRect(90*5, 103*5, 5, 5);
 	}
 }
