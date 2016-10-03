@@ -34,7 +34,7 @@ public class Map {
 			}
 		}
 		generateBlockedCell();
-		generateStartandGoal();
+		
 	} 
 	
 	public void hardCellgenerate()
