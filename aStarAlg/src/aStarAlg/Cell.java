@@ -1,3 +1,4 @@
+
 package aStarAlg;
 
 public class Cell {

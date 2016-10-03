@@ -1,3 +1,4 @@
+
 package aStarAlg;
 
 import java.util.ArrayList;
@@ -44,18 +45,17 @@ public abstract class PathFinding {
 
 	public List<Cell> findPath(){
 
-		
-		
+
+		Binary_heap openList  = new Binary_heap(8);
+		List<Cell> closedList = new ArrayList<Cell>();
+
 
 		Cell current = new Cell(Start.x, Start.y);
-		openList.add(current);
+		openList.insert(current);
 
-		while(openList.size()>0 ){
-			Collections.sort(openList, cellSorter);
-			current = openList.get(0); // get the cell with the smallest f(n)
-//			if (getgCost(current, at) == 50000){
-//				System.out.println(current.getx()+","+current.gety());
-//			}
+		while(openList.position > 1 ){
+			//Collections.sort(openList, cellSorter);
+			current = openList.extractMin(); // get the cell with the smallest f(n)
 			if (current.getx()==Goal.x && current.gety()==Goal.y){
 				List<Cell> path = new ArrayList<Cell>();
 				while(current.parent !=null){
@@ -66,12 +66,14 @@ public abstract class PathFinding {
 				System.out.println("Path length = "+path.size());
 				System.out.println("Path cost = "+ path.get(0).gCost);
 				//openList.clear();
-				//closedList.clear();
+
+				closedList.clear();
+
 
 				return path;
 
 			}   
-			openList.remove(current);
+			//openList.remove(current);
 			closedList.add(current);
 
 			for (int i = 0;i<9;i++){
@@ -90,13 +92,13 @@ public abstract class PathFinding {
 				double gCost = current.gCost + getgCost(current, at);
 				
 				//double hCost = gethCost(at,Goal);
-				Cell cellat = new Cell(x + xi , y+yi);
+				Cell cellat = new Cell(x + xi , y + yi);
 				cellat.parent = current;
 				insertCost(cellat,gCost); 
 				if (pointInList(closedList, at) && cellat.gCost >= current.gCost) continue;
 				//System.out.println("function used");
 				//if (pointInList(closedList, at) && cellat.gCost >= current.gCost) continue;
-				if (!pointInList(openList,at)) openList.add(cellat);
+				if (!openList.find(at)) openList.insert(cellat);
 				//if (!pointInList(openList,at) || cellat.gCost < current.gCost) openList.add(cellat);
 			}
 		}

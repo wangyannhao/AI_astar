@@ -1,3 +1,4 @@
+
 package aStarAlg;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -48,7 +49,6 @@ public class Screen extends JPanel{
     			{
     				g.setColor(new Color(53,80,159));
     				g.fillRect(5*i, 5*j, 5,5);
-    				
     			}
     			else if (map.cell[i][j].type == '0')
     			{
@@ -57,24 +57,11 @@ public class Screen extends JPanel{
     			}
     		}
     	}
+		for (int i = 0; i< path.size();i++){
+			g.setColor(Color.red);
+			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
+		}
 
-		for (int i = 0; i< path.size();i++){
-			g.setColor(Color.red);
-			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
-		}
-		
-		for (int i = 0; i< search.openList.size();i++){
-			g.setColor(Color.orange);
-			g.fillRect(5*search.openList.get(i).getx(), 5*search.openList.get(i).gety(), 5,5);
-		}
-		
-		for (int i = 0; i< search.closedList.size();i++){
-			g.setColor(Color.green);
-			g.fillRect(5*search.closedList.get(i).getx(), 5*search.closedList.get(i).gety(), 5,5);
-		}
-		for (int i = 0; i< path.size();i++){
-			g.setColor(Color.red);
-			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
-		}
+
 	}
 }
