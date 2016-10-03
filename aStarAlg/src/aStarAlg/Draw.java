@@ -7,12 +7,12 @@ import java.util.List;
 
 
 
-public class Screen extends JPanel{
+public class Draw extends JPanel{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public Screen ()
+	public Draw ()
 	{
 		
 	}
@@ -22,7 +22,7 @@ public class Screen extends JPanel{
 		Map map = new Map();
 		map.Read_map("test.txt");
 		//map.generateMap();
-		aStarWeightedSearch search = new aStarWeightedSearch(map, map.Goal,map.Start,0.8);
+		aStarWeightedSearch search = new aStarWeightedSearch(map, map.Goal,map.Start,1);
 		List<Cell> path = search.findPath();
 		
 		for (int i = 0;i<160;i++)
@@ -57,11 +57,20 @@ public class Screen extends JPanel{
     			}
     		}
     	}
+		for (int i =1; i< search.openList.position;i++){
+			g.setColor(Color.orange);
+			g.fillRect(5*search.openList.bheap[i].getx(), 5*search.openList.bheap[i].gety(), 5,5);
+		}
+		for (int i = 0; i< search.closedList.size();i++){
+			g.setColor(Color.green);
+			g.fillRect(5*search.closedList.get(i).getx(), 5*search.closedList.get(i).gety(), 5,5);
+		}
+		
 		for (int i = 0; i< path.size();i++){
 			g.setColor(Color.red);
 			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
 		}
-
+		
 
 	}
 }

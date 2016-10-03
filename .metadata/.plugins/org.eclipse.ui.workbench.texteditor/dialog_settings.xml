@@ -2,22 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="map" key="selection"/>
+		<item value="gety()" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="coordinateY"/>
+			<item value="coordinateX"/>
+			<item value=".point"/>
+			<item value="1000"/>
+			<item value="x.y"/>
+			<item value="x.x"/>
 			<item value="hehe"/>
 			<item value="cell"/>
-			<item value="System"/>
-			<item value="&amp;&amp;"/>
-			<item value="123"/>
-			<item value="system"/>
-			<item value="up boundary"/>
-			<item value="right boundary"/>
 		</list>
 		<list key="replacehistory">
+			<item value="gety()"/>
+			<item value="getx()"/>
+			<item value="10000"/>
+			<item value="x.coordinateY"/>
+			<item value="x.coordinateX"/>
 			<item value="map"/>
 			<item value="map.cell"/>
 		</list>

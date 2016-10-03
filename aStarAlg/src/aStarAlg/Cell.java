@@ -1,16 +1,18 @@
 
 package aStarAlg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cell {
     public int coordinateX, coordinateY;
     public char type;
     public double fCost;
     public int index;
     public Cell parent = null;
-    public Cell child = null;
     public double gCost;
     public double hCost;
-   
+    public List<Cell> children = new ArrayList<Cell>();
 
     public  Cell(int x, int y){
         coordinateX = x;

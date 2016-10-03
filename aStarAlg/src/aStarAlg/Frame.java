@@ -9,7 +9,7 @@ public class Frame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Screen s;
+	Draw s;
 	
 	public Frame()
 	{
@@ -27,7 +27,7 @@ public class Frame extends JFrame{
 		
 		//setLayout(new GridLayout(1,1,0,0));
 		
-		s = new Screen();
+		s = new Draw();
 		
 		add(s);
 		
