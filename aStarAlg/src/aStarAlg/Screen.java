@@ -21,8 +21,9 @@ public class Screen extends JPanel{
 		Map map = new Map();
 		map.Read_map("test.txt");
 		//map.generateMap();
-		uniformCostSearch search = new uniformCostSearch(map, map.Goal,map.Start );
+		aStarWeightedSearch search = new aStarWeightedSearch(map, map.Goal,map.Start,0.8);
 		List<Cell> path = search.findPath();
+		
 		for (int i = 0;i<160;i++)
     	{
     		for (int j = 0;j<120;j++)
@@ -61,7 +62,19 @@ public class Screen extends JPanel{
 			g.setColor(Color.red);
 			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
 		}
-		g.setColor(Color.green);
-		g.fillRect(90*5, 103*5, 5, 5);
+		
+		for (int i = 0; i< search.openList.size();i++){
+			g.setColor(Color.orange);
+			g.fillRect(5*search.openList.get(i).getx(), 5*search.openList.get(i).gety(), 5,5);
+		}
+		
+		for (int i = 0; i< search.closedList.size();i++){
+			g.setColor(Color.green);
+			g.fillRect(5*search.closedList.get(i).getx(), 5*search.closedList.get(i).gety(), 5,5);
+		}
+		for (int i = 0; i< path.size();i++){
+			g.setColor(Color.red);
+			g.fillRect(5*path.get(i).coordinateX, 5*path.get(i).coordinateY, 5,5);
+		}
 	}
 }

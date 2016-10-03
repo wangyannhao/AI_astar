@@ -11,6 +11,8 @@ public abstract class PathFinding {
 	public Point Goal;
 	public String type;
 	public double weight;
+	public List<Cell> openList =new ArrayList<Cell>();
+	public List<Cell> closedList = new ArrayList<Cell>();
 	//******* need to change ********
 	private Comparator<Cell> cellSorter = new Comparator<Cell>(){
 		public int compare(Cell arg0, Cell arg1){
@@ -42,8 +44,8 @@ public abstract class PathFinding {
 
 	public List<Cell> findPath(){
 
-		List<Cell> openList  = new ArrayList<Cell>();
-		List<Cell> closedList = new ArrayList<Cell>();
+		
+		
 
 		Cell current = new Cell(Start.x, Start.y);
 		openList.add(current);
@@ -63,8 +65,8 @@ public abstract class PathFinding {
 				System.out.println("Path Found!!!");
 				System.out.println("Path length = "+path.size());
 				System.out.println("Path cost = "+ path.get(0).gCost);
-				openList.clear();
-				closedList.clear();
+				//openList.clear();
+				//closedList.clear();
 
 				return path;
 
