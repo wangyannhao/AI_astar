@@ -12,22 +12,6 @@ public class Binary_heap {
         bheap = new Cell[size + 1];
         position = 0;
     }
-    /*
-    public void createHeap(int[] arrA ){
-        if(arrA.length > 0){
-            for(int i = 0; i < arrA.length; i++){
-                insert(arrA[i]);
-            }
-        }
-    }
-    */
-    /*
-    public void display(){
-        for(int i = 1; i < bheap.length; i++){
-            System.out.print(" "+bheap[i]);
-        }
-    }
-    */
 
 
     public void insert(Cell x){
@@ -99,21 +83,5 @@ public class Binary_heap {
         }
         return  false;
     }
-    /*
-    public static void main(String args[]){
-        int arrA [] = {3,2,1,7,8,4,10,16,12,3,4,5,8,0,2,1,4};
-        System.out.print("Original Array : ");
-        for(int i=0;i<arrA.length;i++){
-            System.out.print("  " + arrA[i]);
-        }
-        Binary_heap m = new Binary_heap(4);
-        System.out.print("Min-Heap : ");
 
-        //m.display();
-        System.out.print("Extract Min :");
-        for(int i=0;i<arrA.length;i++){
-            System.out.print("  " + m.extractMin());
-        }
-    }
-    */
 }
