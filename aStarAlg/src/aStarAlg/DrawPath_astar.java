@@ -32,10 +32,15 @@ public class DrawPath_astar extends JPanel{
 		//map.generateMap();
 		long startTime=System.currentTimeMillis(); 
 		aStarSearch search = new aStarSearch(map, map.Start,map.Goal);
+		path = search.findPath();
+		for (int i = 0; i<path.size();i++){
+		System.out.println(path.get(i).coordinateX+","+path.get(i).coordinateY);
+			
+		}
 		long endTime=System.currentTimeMillis();
 		runningTime = endTime-startTime;
-		System.out.println("runningTime is "+ runningTime);
-		path = search.findPath();
+		//System.out.println("runningTime is "+ runningTime);
+		
 		
 		for (int i = 0;i<160;i++)
     	{
@@ -74,9 +79,9 @@ public class DrawPath_astar extends JPanel{
     	}		
 		if (showprocess)
 		{
-			for (int i =1; i< search.openList.position;i++){
+			for (int i =1; i< search.openList.size();i++){
 				g.setColor(Color.orange);
-				g.fillRect(5*search.openList.bheap[i].getx(), 5*search.openList.bheap[i].gety(), 5,5);
+				g.fillRect(5*search.openList.get(i).getx(), 5*search.openList.get(i).gety(), 5,5);
 			}
 			for (int i = 0; i< search.closedList.size();i++){
 				g.setColor(Color.green);

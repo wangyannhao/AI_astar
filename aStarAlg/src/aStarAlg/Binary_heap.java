@@ -32,13 +32,17 @@ public class Binary_heap {
     }
 
     public void bubbleUp(){
-        int pos = position -1;
-        while( pos > 1 && bheap[pos].fCost < bheap[pos/2].fCost){
-            swap(pos, pos/2);
-            pos = pos/2;
-        }
-    }
+    	int pos = position -1;
+    	while( pos > 1 && bheap[pos].fCost < bheap[pos/2].fCost){
 
+
+    		swap(pos, pos/2);
+    		pos = pos/2;
+
+
+    	}
+    }
+    
     public Cell extractMin(){
         Cell min = bheap[1];
         bheap[1] = bheap[position - 1];

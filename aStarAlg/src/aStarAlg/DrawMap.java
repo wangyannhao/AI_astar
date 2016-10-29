@@ -66,6 +66,7 @@ public class DrawMap extends JPanel{
     	}
 		g.setColor(Color.red);
 		g.fillRect(map.Start.x*5, 5*map.Start.y, 5,5);
+		g.setColor(Color.yellow);
 		g.fillRect(map.Goal.x*5, 5*map.Goal.y, 5,5);
 
 	}

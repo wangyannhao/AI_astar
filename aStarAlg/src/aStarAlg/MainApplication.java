@@ -27,10 +27,11 @@ public class MainApplication {
 	private JFrame frame;
 	private JPanel mapPanel;
 	private JPanel InfoPanel;
-	public DrawPath_uniformCost up;
+	public DrawPath_sstartwoqueues up;
 	public DrawPath_astar ap;
 	public DrawMap dmp;
 	public DrawPath_astarweighted awp;
+	public DrawPath_Sequential ass;
 
 	private Boolean ShowProcess_pressed = false;
 	private int mapAmount = 0;
@@ -39,12 +40,9 @@ public class MainApplication {
 	public  Point clickedPoint ;
 	public List<javax.swing.JComponent> layer =  new ArrayList<javax.swing.JComponent>();
 	public  Boolean ButtonPressed[] = new Boolean[3];
-
-	private JTextField show_gCost;
-	private JTextField show_fCost;
 	private JTextField Map_Paths;
-	private JTextField show_hCost;
 	private JTextField weightText;
+	private JTextField txtW;
 	//map.Read_map("test.txt");
 	/**
 	 * Launch the application.
@@ -104,7 +102,7 @@ public class MainApplication {
 		final JFrame CreateMaps = new JFrame();
 
 		Map_Paths = new JTextField();
-		Map_Paths.setText(".txt");
+		Map_Paths.setText("1_1.txt");
 		InfoPanel.add(Map_Paths);
 		Map_Paths.setColumns(10);
 		JButton btnReadMaps = new JButton("Read Map");
@@ -173,7 +171,7 @@ public class MainApplication {
 		});
 
 		InfoPanel.add(ShowProcess);
-		JButton btnAStarAlgorithm = new JButton("A* ");
+		JButton btnAStarAlgorithm = new JButton("A* Sequential");
 		btnAStarAlgorithm.setSize(200, 10);
 		InfoPanel.add(btnAStarAlgorithm);
 
@@ -182,18 +180,18 @@ public class MainApplication {
 				ButtonPressed[1]=false;
 				ButtonPressed[2]=false;
 				ButtonPressed[0]=true;
-				ap =new DrawPath_astar(map,ShowProcess_pressed);
+				ass =new DrawPath_Sequential(map,ShowProcess_pressed,Double.parseDouble(txtW.getText()),Double.parseDouble(weightText.getText()));
 				
 				mapPanel.remove(layer.get(layer.size()-1));
 				mapPanel.validate();
-				layer.add(ap);
+				layer.add(ass);
 				mapPanel.add(layer.get(layer.size()-1));
 				mapPanel.validate();
 				mapPanel.repaint();
 			}
 		});
 
-		JButton btnUniformCostAlg = new JButton("Uniform Cost");
+		JButton btnUniformCostAlg = new JButton("A* Two Queues");
 		btnUniformCostAlg.setSize(200, 10);
 		InfoPanel.add(btnUniformCostAlg);
 		btnUniformCostAlg.addActionListener(new ActionListener() {
@@ -201,8 +199,7 @@ public class MainApplication {
 				ButtonPressed[1]=true;
 				ButtonPressed[2]=false;
 				ButtonPressed[0]=false;
-				up = new DrawPath_uniformCost(map,ShowProcess_pressed);
-				
+				up = new DrawPath_sstartwoqueues(map,ShowProcess_pressed,Double.parseDouble(txtW.getText()),Double.parseDouble(weightText.getText()));
 				mapPanel.remove(layer.get(layer.size()-1));
 				mapPanel.validate();
 				layer.add(up);
@@ -211,128 +208,90 @@ public class MainApplication {
 				mapPanel.repaint();
 			}
 		});
-
-		JButton btnAStarWeighted = new JButton("A* Weighted");
-		InfoPanel.add(btnAStarWeighted);
-		btnAStarWeighted.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(!weightText.getText().isEmpty()){
-					ButtonPressed[1]=false;
-					ButtonPressed[2]=true;
-					ButtonPressed[0]=false;
-					double weight = Double.parseDouble(weightText.getText());
-					awp = new DrawPath_astarweighted (map,weight,ShowProcess_pressed);
-					
-					mapPanel.remove(layer.get(layer.size()-1));
-					mapPanel.validate();
-					layer.add(awp);
-					mapPanel.add(layer.get(layer.size()-1));
-					mapPanel.validate();
-					mapPanel.repaint();
-				}
-			}
-		});
+		
+		txtW = new JTextField();
+		InfoPanel.add(txtW);
+		txtW.setColumns(10);
 
 		weightText = new JTextField();
 		InfoPanel.add(weightText);
 		weightText.setColumns(10);
-
-		JSeparator separator_1 = new JSeparator();
-		InfoPanel.add(separator_1);
-
-		show_fCost = new JTextField();
-		show_fCost.setForeground(Color.BLACK);
-		show_fCost.setEditable(false);
-		show_fCost.setColumns(23);
-		InfoPanel.add(show_fCost);
-
-		show_gCost = new JTextField();
-		show_gCost.setForeground(Color.BLACK);
-		InfoPanel.add(show_gCost);
-		show_gCost.setEditable(false);
-		show_gCost.setColumns(10);
-
-		show_hCost = new JTextField();
-		show_hCost.setForeground(Color.BLACK);
-		show_hCost.setEditable(false);
-		InfoPanel.add(show_hCost);
-		show_hCost.setColumns(10);
 
 
 		JLabel label_7 = new JLabel("");
 		InfoPanel.add(label_7);
 		//InfoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-
-		clickedPoint = new Point(0,0);
-		MouseListener mouse = new MyMouseListener() ;
-		mapPanel.addMouseListener(mouse);
-
-	}
-
-	private class MyMouseListener implements MouseListener{
-
-		@Override
-
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			clickedPoint.x = e.getX()/5;
-			clickedPoint.y = e.getY()/5-1;
-			if(ButtonPressed[0]){
-				for (int i = 0; i < ap.path.size();i++){
-					if (ap.path.get(i).getx()==clickedPoint.x&&ap.path.get(i).gety()==clickedPoint.y ){
-						DecimalFormat df  = new DecimalFormat("###.000");
-						show_gCost.setText("gCost: "+df.format(ap.path.get(i).gCost));
-						show_fCost.setText(" fCost: " +df.format(ap.path.get(i).fCost));
-						show_hCost.setText("hCost: "+df.format(ap.path.get(i).gCost));
-					}
-				}
-			}
-			if(ButtonPressed[2]){
-				for (int i = 0; i < awp.path.size();i++){
-					if (awp.path.get(i).getx()==clickedPoint.x&&awp.path.get(i).gety()==clickedPoint.y ){
-						DecimalFormat df  = new DecimalFormat("###.000");
-						show_gCost.setText("gCost: "+df.format(awp.path.get(i).gCost));
-						show_fCost.setText(" fCost: " +df.format(awp.path.get(i).fCost));
-						show_hCost.setText("hCost: "+df.format(awp.path.get(i).gCost));
-					}
-				}
-			}
-			if(ButtonPressed[1]){
-				for (int i = 0; i < up.path.size();i++){
-					if (up.path.get(i).getx()==clickedPoint.x&&up.path.get(i).gety()==clickedPoint.y ){
-						DecimalFormat df  = new DecimalFormat("###.000");
-						show_gCost.setText("gCost: "+df.format(up.path.get(i).gCost));
-						show_fCost.setText(" fCost: " +df.format(up.path.get(i).fCost));
-						show_hCost.setText("No h Cost");
-					}
-				}
-			}
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
+//
+//		clickedPoint = new Point(0,0);
+//		MouseListener mouse = new MyMouseListener() ;
+//		mapPanel.addMouseListener(mouse);
 
 	}
+
+//	private class MyMouseListener implements MouseListener{
+//
+//		@Override
+//
+//		public void mouseClicked(MouseEvent e) {
+//			// TODO Auto-generated method stub
+//			clickedPoint.x = e.getX()/5;
+//			clickedPoint.y = e.getY()/5-1;
+//			if(ButtonPressed[0]){
+//				for (int i = 0; i < ass.path.size();i++){
+//					if (ass.path.get(i).getx()==clickedPoint.x&&ass.path.get(i).gety()==clickedPoint.y ){
+//						DecimalFormat df  = new DecimalFormat("###.000");
+//						show_gCost.setText("gCost: "+df.format(ass.path.get(i).getgCost(0)));
+//						show_fCost.setText(" fCost: " +df.format(ass.path.get(i).getKey(0)));
+//						show_hCost.setText("hCost: "+df.format(ass.path.get(i).gethCost(0)));
+//					}
+//				}
+//			}
+//			if(ButtonPressed[2]){
+//				for (int i = 0; i < awp.path.size();i++){
+//					if (awp.path.get(i).getx()==clickedPoint.x&&awp.path.get(i).gety()==clickedPoint.y ){
+//						DecimalFormat df  = new DecimalFormat("###.000");
+//						show_gCost.setText("gCost: "+df.format(awp.path.get(i).gCost));
+//						show_fCost.setText(" fCost: " +df.format(awp.path.get(i).fCost));
+//						show_hCost.setText("hCost: "+df.format(awp.path.get(i).hCost));
+//					}
+//				}
+//			}
+//			if(ButtonPressed[1]){
+//				for (int i = 0; i < up.path.size();i++){
+//					if (up.path.get(i).getx()==clickedPoint.x&&up.path.get(i).gety()==clickedPoint.y ){
+//						DecimalFormat df  = new DecimalFormat("###.000");
+//						show_gCost.setText("gCost: "+df.format(up.path.get(i).gCost));
+//						show_fCost.setText(" fCost: " +df.format(up.path.get(i).fCost));
+//						show_hCost.setText("No h Cost");
+//					}
+//				}
+//			}
+//		}
+//
+//		@Override
+//		public void mouseEntered(MouseEvent e) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//
+//		@Override
+//		public void mouseExited(MouseEvent e) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//
+//		@Override
+//		public void mousePressed(MouseEvent e) {
+//			// TODO Auto-generated method stub
+//
+//		}
+//
+//		@Override
+//		public void mouseReleased(MouseEvent e) {
+//			// TODO Auto-generated method stub
+//
+//		}
+
+	//}
 }

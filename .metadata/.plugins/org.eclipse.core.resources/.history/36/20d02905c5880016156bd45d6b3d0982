@@ -1,7 +1,0 @@
-package aStarAlg;
-
-import java.util.List;
-
-public class aStarSearch extends Pathfinding {
-
-}

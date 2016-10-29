@@ -2,36 +2,37 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="parseInt" key="selection"/>
+		<item value="running time:" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="parseInt"/>
-			<item value="grid"/>
-			<item value="Grid"/>
-			<item value="layout"/>
-			<item value="coordinateY"/>
-			<item value="coordinateX"/>
-			<item value=".point"/>
+			<item value="running time:"/>
+			<item value="system"/>
 			<item value="1000"/>
+			<item value="goal.y"/>
+			<item value="goal.x"/>
+			<item value="x.y"/>
+			<item value="x.x"/>
+			<item value="Goal.y"/>
 		</list>
 		<list key="replacehistory">
-			<item value="gety()"/>
-			<item value="getx()"/>
-			<item value="10000"/>
-			<item value="x.coordinateY"/>
-			<item value="x.coordinateX"/>
-			<item value="map"/>
-			<item value="map.cell"/>
+			<item value="100000"/>
+			<item value="goal.gety()"/>
+			<item value="goal.getx()"/>
+			<item value="s.gety()"/>
+			<item value="s.getx()"/>
+			<item value="son.gety()"/>
+			<item value="son.getx()"/>
+			<item value="father.gety()"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="284" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="391" key="DIALOG_HEIGHT"/>
-		<item value="1619" key="DIALOG_X_ORIGIN"/>
-		<item value="528" key="DIALOG_Y_ORIGIN"/>
+		<item value="364" key="DIALOG_X_ORIGIN"/>
+		<item value="594" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

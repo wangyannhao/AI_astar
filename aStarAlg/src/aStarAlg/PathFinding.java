@@ -2,6 +2,8 @@
 package aStarAlg;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public abstract class PathFinding {
@@ -10,15 +12,33 @@ public abstract class PathFinding {
 	public Point Goal;
 	public String type;
 	public double weight;
-	Binary_heap openList  = new Binary_heap(8);
+	//*********bench mark ********
+	public long runningtime;
+	public int pathLength;
+	public double pathCost;
+	public int nodeExpanded;
+	
+	//Binary_heap openList  = new Binary_heap(8);
 	public List<Cell> closedList = new ArrayList<Cell>();
-
+	public List<Cell> openList = new ArrayList<Cell>(); 
 	private boolean pointInList(List<Cell> list, Point p){
 		for (Cell n : list) {
 			if(n.getx() == p.x && n.gety() == p.y) return true;
 		}
 		return false;
 	}
+	private Comparator<Cell> cellSorter = new Comparator<Cell>(){
+				public int compare(Cell arg0, Cell arg1){
+					if(arg1.fCost < arg0.fCost) return +1;
+					if(arg1.fCost> arg0.fCost) return -1;
+					if (arg1.fCost == arg0.fCost)
+						{
+							if (arg1.gCost<arg0.gCost)return 1;
+							if (arg1.gCost>arg0.gCost)return -1;
+						}
+					return 0;
+				}
+			}; 
 	public PathFinding(Map m, Point s, Point g){
 		map = m;
 		Start = s;
@@ -32,24 +52,35 @@ public abstract class PathFinding {
 	}
 
 	public List<Cell> findPath(){
+		long startTime=System.currentTimeMillis(); 
 		Cell current = new Cell(Start.x, Start.y);
-		openList.insert(current);
-		while(openList.position > 1 ){
-			current = openList.extractMin(); // get the cell with the smallest f(n)
+		//openList.insert(current);
+		openList.add(current);
+		while(openList.size() > 0 ){
+			//current = openList.extractMin(); // get the cell with the smallest f(n)
+			Collections.sort(openList,cellSorter);
+			
+			current = openList.get(0);
 			if (current.getx()==Goal.x && current.gety()==Goal.y){
 				List<Cell> path = new ArrayList<Cell>();
 				while(current.parent !=null){
 					path.add(current);
 					current = current.parent;
 				}
-				System.out.println("Path Found!!!");
-				System.out.println("Path length = "+path.size());
-				System.out.println("Path cost = "+ path.get(0).gCost);
+				//System.out.println("Path Found!!!");
+				//System.out.println("Path length = "+path.size());
+				//System.out.println("Path cost = "+ path.get(0).gCost);
 				//openList=null;
 				//closedList.clear();
+				long endTime=System.currentTimeMillis(); 
+				runningtime = endTime - startTime;
+				pathLength = path.size();
+				pathCost = path.get(0).gCost;
+				nodeExpanded = closedList.size();
+				//System.out.println(pathCost);
 				return path;
 			}   
-			//openList.remove(current);
+			openList.remove(current);
 			closedList.add(current);
 			for (int i = 0;i<9;i++){
 				if (i ==4 ) continue;
@@ -65,13 +96,17 @@ public abstract class PathFinding {
 				double gCost = current.gCost + getgCost(current, at);
 				Cell cellat = new Cell(x + xi , y + yi);
 				cellat.parent = current;
-				//current.children.add(cellat;
+				//current.expanded = true;
+				current.children.add(cellat);
 				insertCost(cellat,gCost); 
-				if (pointInList(closedList, at) && cellat.gCost >= current.gCost) continue;
-				if (!openList.find(at)) openList.insert(cellat);
-				//if (!pointInList(openList,at) || cellat.gCost < current.gCost) openList.add(cellat);
+				if (pointInList(closedList,at)&&cellat.gCost>current.gCost) continue;
+				//if (cellat.expanded ) continue;
+				//if (!openList.find(at) || cellat.gCost < current.gCost) openList.insert(cellat);
+			
+				if (!pointInList(openList,at) ||cellat.gCost < current.gCost) openList.add(cellat);
 			}
 		}
+		
 		return null;
 	}
 	private double getgCost(Cell x, Point y) {
@@ -197,8 +232,28 @@ public abstract class PathFinding {
 	public double gethCost(Point x, Point Goal){
 		double dx = x.x-Goal.x;
 		double dy = x.y-Goal.y;
-		return Math.sqrt(dx*dx + dy*dy);
+		return 0.25*Math.sqrt(dx*dx + dy*dy);
 	}
 
+	public double gethCost1(Point x, Point Goal) {
+		double h = Math.sqrt(2)*Math.min(Math.abs(x.x-Goal.x), Math.abs(x.y-Goal.y))+Math.max(Math.abs(x.x-Goal.x), Math.abs(x.y-Goal.y))-Math.min(Math.abs(x.x-Goal.x), Math.abs(x.y-Goal.y));
+		return h;
+	}
+	
+	public double gethCost2(Point x, Point goal){
+		double h = Math.abs(x.x-goal.x)+Math.abs(x.y-goal.y);
+		return h;
+	}
+	public double gethCost3(Point x, Point goal){
+		
+		double C = Math.abs(Math.sqrt(x.x*x.x+x.y*x.y)-Math.sqrt(goal.x*goal.x+goal.y+goal.y));
+		double h =Math.abs(Math.asin(x.y/Math.sqrt(x.x*x.x+x.y*x.y))-Math.asin(goal.y/Math.sqrt(goal.x*goal.x+goal.y*goal.y)))*C;
+		return h;
+	}
+	public double gethCost4(Point x, Point goal){
+		
+		double h = Math.abs(x.x*x.y)*Math.abs(goal.x*goal.y);
+		return h;
+	}
 	public abstract void insertCost(Cell cellat, double gCost);
 }

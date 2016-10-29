@@ -33,12 +33,12 @@ public class DrawPath_astarweighted extends JPanel{
 		long startTime=System.currentTimeMillis(); 
 		aStarWeightedSearch search = new aStarWeightedSearch(map, map.Start,map.Goal, weight);
 		
-	
+		path = search.findPath();
 		long endTime=System.currentTimeMillis();
+		
+		
 		runningTime = endTime-startTime;
 		System.out.println("runningTime is "+ runningTime);
-		path = search.findPath();
-
 		for (int i = 0;i<160;i++)
 		{
 			for (int j = 0;j<120;j++)
@@ -79,9 +79,9 @@ public class DrawPath_astarweighted extends JPanel{
 		
 		if (showprocess)
 		{
-			for (int i =1; i< search.openList.position;i++){
+			for (int i =1; i< search.openList.size();i++){
 				g.setColor(Color.orange);
-				g.fillRect(5*search.openList.bheap[i].getx(), 5*search.openList.bheap[i].gety(), 5,5);
+				g.fillRect(5*search.openList.get(i).getx(), 5*search.openList.get(i).gety(), 5,5);
 			}
 			for (int i = 0; i< search.closedList.size();i++){
 				g.setColor(Color.green);
